@@ -50,7 +50,12 @@ function(create_target)
     elseif (PREFIX_TARGET_TYPE STREQUAL "TEST")
         add_executable(${PREFIX_NAME} ${PREFIX_SOURCES})
         add_test(NAME ${PREFIX_NAME}.test COMMAND ${PREFIX_NAME})
-    endif()
+
+        if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan" AND LANGUAGES_USE_CUDA)
+            # https://github.com/google/sanitizers/issues/629
+            set_property(TEST ${PREFIX_NAME}.test PROPERTY
+                ENVIRONMENT "ASAN_OPTIONS=protect_shadow_gap=0")
+        endif()
 
     if (NOT ${PREFIX_DO_NOT_USE_PEDANTIC_WARNINGS})
         target_compile_options(${PREFIX_NAME} PRIVATE ${PEDANTIC_WARNING_FLAGS})
