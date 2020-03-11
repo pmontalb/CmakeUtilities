@@ -1,5 +1,15 @@
 include_guard()
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CACHE CMAKE_BUILD_TYPE PROPERTY STRING "Debug" "Release" "MinSizeRel" "RelWithDebInfo" "Asan" "Ubsan" "Tsan" "Stan" "Coverage" "IWYU")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CACHE CMAKE_BUILD_TYPE PROPERTY STRING "Debug" "Release" "MinSizeRel" "RelWithDebInfo" "Asan" "Ubsan" "Tsan" "Coverage")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+    set(CACHE CMAKE_BUILD_TYPE PROPERTY STRING "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    set(CACHE CMAKE_BUILD_TYPE PROPERTY STRING "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
 if (NOT CMAKE_BUILD_TYPE)
     message(STATUS "Using Debug configuration as none has been specified")
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type")
