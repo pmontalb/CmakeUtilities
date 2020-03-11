@@ -136,7 +136,6 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                 -Wsuggest-override
                 -Wswitch-bool
                 -Wswitch-default
-
                 #-Wswitch-enum
                 -Wswitch-unreachable
                 -Wsync-nand
