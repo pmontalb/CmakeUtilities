@@ -47,116 +47,224 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                 -Wno-covered-switch-default
                 -Wno-global-constructors)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        # https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt
-        set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
-                #-Wabi-tag
-                #-Waggregate-return
-                -Waggressive-loop-optimizations
-                -Wall
-                -Walloc-zero
-                -Walloca
-                -Wattribute-alias
-                -Wattributes
-                -Wbuiltin-declaration-mismatch
-                -Wbuiltin-macro-redefined
-                -Wcast-align
-                -Wcast-align=strict
-                -Wcast-qual
-                -Wconditionally-supported
-                -Wconversion
-                -Wconversion-null
-                -Wcoverage-mismatch
-                -Wcpp
-                -Wctor-dtor-privacy
-                -Wdate-time
-                -Wdelete-incomplete
-                -Wdeprecated
-                -Wdeprecated-declarations
-                -Wdisabled-optimization
-                -Wdiv-by-zero
-                -Wdouble-promotion
-                -Wduplicated-branches
-                -Wduplicated-cond
-                -Weffc++
-                -Wextra-semi
-                -Wfloat-equal
-                -Wformat-signedness
-                -Wfree-nonheap-object
-                -Whsa
-                -Wif-not-aligned
-                -Wignored-attributes
-                -Wimport # DUMMY switch
-                -Winherited-variadic-ctor
-#                -Winline
-                -Wint-to-pointer-cast
-                -Winvalid-memory-model
-                -Winvalid-offsetof
-                -Winvalid-pch
-                -Wliteral-suffix
-                -Wlogical-op
-                -Wlto-type-mismatch
-                -Wmissing-declarations
-                -Wmissing-include-dirs
-                -Wmultichar
-                -Wmultiple-inheritance
-                -Wnoexcept
-                -Wnon-template-friend
-                -Wnull-dereference
-                -Wodr
-                -Wold-style-cast
-                -Woverflow
-                #-Woverloaded-virtual
-                -Wpacked
-                -Wpacked-bitfield-compat
-                #-Wpadded
-                -Wpedantic
-                -Wpmf-conversions
-                -Wpointer-compare
-                -Wpragmas
-                -Wredundant-decls
-                -Wregister
-                -Wreturn-local-addr
-                -Wscalar-storage-order
-                -Wshadow
-                -Wshift-count-negative
-                -Wshift-count-overflow
-                -Wshift-negative-value
-                -Wsign-promo
-                -Wsizeof-array-argument
-                -Wstack-protector
-                -Wstrict-aliasing
-                -Wstrict-null-sentinel
-                -Wstrict-overflow
-                -Wsubobject-linkage
-#                -Wsuggest-attribute=cold
-#                -Wsuggest-attribute=const
-#                -Wsuggest-attribute=format
-#                -Wsuggest-attribute=malloc
-#                -Wsuggest-attribute=noreturn
-#                -Wsuggest-attribute=pure
-#                -Wsuggest-final-methods
-#                -Wsuggest-final-types
-                -Wsuggest-override
-                -Wswitch-bool
-                -Wswitch-default
-                #-Wswitch-enum
-                -Wswitch-unreachable
-                -Wsync-nand
-                -Wsynth
-                -Wterminate
-                -Wtrampolines
-                #-Wundef
-                -Wunreachable-code # DUMMY switch
-                -Wunsafe-loop-optimizations # DUMMY switch
-                -Wunused-result
-                -Wuseless-cast
-                -Wvarargs
-                -Wvector-operation-performance
-                -Wvirtual-inheritance
-                -Wvirtual-move-assign
-                -Wvla
-                -Wwrite-strings
-                -Wzero-as-null-pointer-constant)
+        if ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "9.")
+            # https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt
+            set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
+                    #-Wabi-tag
+                    #-Waggregate-return
+                    -Waggressive-loop-optimizations
+                    -Wall
+                    -Walloc-zero
+                    -Walloca
+                    -Wattribute-alias
+                    -Wattributes
+                    -Wbuiltin-declaration-mismatch
+                    -Wbuiltin-macro-redefined
+                    -Wcast-align
+                    -Wcast-align=strict
+                    -Wcast-qual
+                    -Wconditionally-supported
+                    -Wconversion
+                    -Wconversion-null
+                    -Wcoverage-mismatch
+                    -Wcpp
+                    -Wctor-dtor-privacy
+                    -Wdate-time
+                    -Wdelete-incomplete
+                    -Wdeprecated
+                    -Wdeprecated-declarations
+                    -Wdisabled-optimization
+                    -Wdiv-by-zero
+                    -Wdouble-promotion
+                    -Wduplicated-branches
+                    -Wduplicated-cond
+                    -Weffc++
+                    -Wextra-semi
+                    -Wfloat-equal
+                    -Wformat-signedness
+                    -Wfree-nonheap-object
+                    -Whsa
+                    -Wif-not-aligned
+                    -Wignored-attributes
+                    -Wimport # DUMMY switch
+                    -Winherited-variadic-ctor
+    #                -Winline
+                    -Wint-to-pointer-cast
+                    -Winvalid-memory-model
+                    -Winvalid-offsetof
+                    -Winvalid-pch
+                    -Wliteral-suffix
+                    -Wlogical-op
+                    -Wlto-type-mismatch
+                    -Wmissing-declarations
+                    -Wmissing-include-dirs
+                    -Wmultichar
+                    -Wmultiple-inheritance
+                    -Wnoexcept
+                    -Wnon-template-friend
+                    -Wnull-dereference
+                    -Wodr
+                    -Wold-style-cast
+                    -Woverflow
+                    #-Woverloaded-virtual
+                    -Wpacked
+                    -Wpacked-bitfield-compat
+                    #-Wpadded
+                    -Wpedantic
+                    -Wpmf-conversions
+                    -Wpointer-compare
+                    -Wpragmas
+                    -Wredundant-decls
+                    -Wregister
+                    -Wreturn-local-addr
+                    -Wscalar-storage-order
+                    -Wshadow
+                    -Wshift-count-negative
+                    -Wshift-count-overflow
+                    -Wshift-negative-value
+                    -Wsign-promo
+                    -Wsizeof-array-argument
+                    -Wstack-protector
+                    -Wstrict-aliasing
+                    -Wstrict-null-sentinel
+                    -Wstrict-overflow
+                    -Wsubobject-linkage
+    #                -Wsuggest-attribute=cold
+    #                -Wsuggest-attribute=const
+    #                -Wsuggest-attribute=format
+    #                -Wsuggest-attribute=malloc
+    #                -Wsuggest-attribute=noreturn
+    #                -Wsuggest-attribute=pure
+    #                -Wsuggest-final-methods
+    #                -Wsuggest-final-types
+                    -Wsuggest-override
+                    -Wswitch-bool
+                    -Wswitch-default
+                    #-Wswitch-enum
+                    -Wswitch-unreachable
+                    -Wsync-nand
+                    -Wsynth
+                    -Wterminate
+                    -Wtrampolines
+                    #-Wundef
+                    -Wunreachable-code # DUMMY switch
+                    -Wunsafe-loop-optimizations # DUMMY switch
+                    -Wunused-result
+                    -Wuseless-cast
+                    -Wvarargs
+                    -Wvector-operation-performance
+                    -Wvirtual-inheritance
+                    -Wvirtual-move-assign
+                    -Wvla
+                    -Wwrite-strings
+                    -Wzero-as-null-pointer-constant)
+        elseif ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "7.")
+            set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
+                    #-Wabi-tag
+                    #-Waggregate-return
+                    -Waggressive-loop-optimizations
+                    -Wall
+                    -Walloc-zero
+                    -Walloca
+                    -Wattributes
+                    -Wbuiltin-declaration-mismatch
+                    -Wbuiltin-macro-redefined
+                    -Wcast-align
+                    -Wcast-qual
+                    -Wconditionally-supported
+                    -Wconversion
+                    -Wconversion-null
+                    -Wcoverage-mismatch
+                    -Wcpp
+                    -Wctor-dtor-privacy
+                    -Wdate-time
+                    -Wdelete-incomplete
+                    -Wdeprecated
+                    -Wdeprecated-declarations
+                    -Wdisabled-optimization
+                    -Wdiv-by-zero
+                    -Wdouble-promotion
+                    -Wduplicated-branches
+                    -Wduplicated-cond
+                    -Weffc++
+                    -Wfloat-equal
+                    -Wformat-signedness
+                    -Wfree-nonheap-object
+                    -Whsa
+                    -Wignored-attributes
+                    -Wimport # DUMMY switch
+                    -Winherited-variadic-ctor
+                    #                -Winline
+                    -Wint-to-pointer-cast
+                    -Winvalid-memory-model
+                    -Winvalid-offsetof
+                    -Winvalid-pch
+                    -Wliteral-suffix
+                    -Wlogical-op
+                    -Wlto-type-mismatch
+                    -Wmissing-declarations
+                    -Wmissing-include-dirs
+                    -Wmultichar
+                    -Wmultiple-inheritance
+                    -Wnoexcept
+                    -Wnon-template-friend
+                    -Wnull-dereference
+                    -Wodr
+                    -Wold-style-cast
+                    -Woverflow
+                    #-Woverloaded-virtual
+                    -Wpacked
+                    -Wpacked-bitfield-compat
+                    #-Wpadded
+                    -Wpedantic
+                    -Wpmf-conversions
+                    -Wpointer-compare
+                    -Wpragmas
+                    -Wredundant-decls
+                    -Wregister
+                    -Wreturn-local-addr
+                    -Wscalar-storage-order
+                    -Wshadow
+                    -Wshift-count-negative
+                    -Wshift-count-overflow
+                    -Wshift-negative-value
+                    -Wsign-promo
+                    -Wsizeof-array-argument
+                    -Wstack-protector
+                    -Wstrict-aliasing
+                    -Wstrict-null-sentinel
+                    -Wstrict-overflow
+                    -Wsubobject-linkage
+                    #                -Wsuggest-attribute=cold
+                    #                -Wsuggest-attribute=const
+                    #                -Wsuggest-attribute=format
+                    #                -Wsuggest-attribute=malloc
+                    #                -Wsuggest-attribute=noreturn
+                    #                -Wsuggest-attribute=pure
+                    #                -Wsuggest-final-methods
+                    #                -Wsuggest-final-types
+                    -Wsuggest-override
+                    -Wswitch-bool
+                    -Wswitch-default
+                    #-Wswitch-enum
+                    -Wswitch-unreachable
+                    -Wsync-nand
+                    -Wsynth
+                    -Wterminate
+                    -Wtrampolines
+                    #-Wundef
+                    -Wunreachable-code # DUMMY switch
+                    -Wunsafe-loop-optimizations # DUMMY switch
+                    -Wunused-result
+                    -Wuseless-cast
+                    -Wvarargs
+                    -Wvector-operation-performance
+                    -Wvirtual-inheritance
+                    -Wvirtual-move-assign
+                    -Wvla
+                    -Wwrite-strings
+                    -Wzero-as-null-pointer-constant)
+        endif()
 
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
         message(FATAL "icc not supported")
