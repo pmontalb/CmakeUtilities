@@ -42,7 +42,9 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                 -Wno-weak-vtables
                 -Wno-padded
                 -Wno-unused-macros
-                -Wno-exit-time-destructors)
+                -Wno-exit-time-destructors
+                -Wno-unused-template
+                -Wno-covered-switch-default)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt
         set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
@@ -84,7 +86,7 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                 -Wignored-attributes
                 -Wimport # DUMMY switch
                 -Winherited-variadic-ctor
-                -Winline
+#                -Winline
                 -Wint-to-pointer-cast
                 -Winvalid-memory-model
                 -Winvalid-offsetof
@@ -102,7 +104,7 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                 -Wodr
                 -Wold-style-cast
                 -Woverflow
-                -Woverloaded-virtual
+                #-Woverloaded-virtual
                 -Wpacked
                 -Wpacked-bitfield-compat
                 #-Wpadded
@@ -131,8 +133,8 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
 #                -Wsuggest-attribute=malloc
 #                -Wsuggest-attribute=noreturn
 #                -Wsuggest-attribute=pure
-                -Wsuggest-final-methods
-                -Wsuggest-final-types
+#                -Wsuggest-final-methods
+#                -Wsuggest-final-types
                 -Wsuggest-override
                 -Wswitch-bool
                 -Wswitch-default
