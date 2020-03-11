@@ -12,6 +12,8 @@ endif()
 
 if (BUILD_SYSTEM_USE_CCACHE)
     find_program(CCACHE_PROGRAM ccache)
+    mark_as_advanced(CCACHE_PROGRAM)
+
     if(CCACHE_PROGRAM)
         message(STATUS "Using ccache")
         set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")

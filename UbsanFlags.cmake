@@ -1,5 +1,7 @@
 include_guard()
 
+mark_as_advanced(CMAKE_CXX_FLAGS_UBSAN)
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS_UBSAN "-ggdb3 -O0 -fsanitize=undefined -fsanitize=integer -fsanitize=nullability" CACHE STRING "" FORCE)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

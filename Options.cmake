@@ -21,4 +21,4 @@ option(OPTIMIZATIONS_USE_LTO "Use Link-Time Optimization in release mode" OFF)
 option(OPTIMIZATIONS_USE_NATIVE_ARCHITECTURE "Use -march=native [for a custom arch define OPTIMIZATIONS_CUSTOM_TUNING]" ON)
 option(OPTIMIZATIONS_USE_NATIVE_TUNING "Use -mtune=native  [for a custom tune define OPTIMIZATIONS_CUSTOM_ARCHITECTURE]" OFF)
 
-option(BUILD_SYSTEM_USE_CCACHE "Use ccache" ON)
+option(BUILD_SYSTEM_USE_CCACHE "Use ccache" OFF)

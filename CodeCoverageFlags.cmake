@@ -1,6 +1,8 @@
 
 include_guard()
 
+mark_as_advanced(CMAKE_CXX_FLAGS_COVERAGE)
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS_COVERAGE "-ggdb3 -O0 -fprofile-instr-generate -fcoverage-mapping --coverage" CACHE STRING "" FORCE)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
