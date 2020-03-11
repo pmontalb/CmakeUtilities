@@ -8,7 +8,7 @@ if (LANGUAGES_USE_CUDA)
         message(STATUS "Using CUDA 10.2 as nothing specified")
         set(LANGUAGES_CUDA_VERSION 10.2)
     else()
-        message(STATUS "Using CUDA${LANGUAGES_CUDA_VERSION}")
+        message(STATUS "Using CUDA ${LANGUAGES_CUDA_VERSION}")
     endif()
 
     set(CMAKE_CUDA_STANDARD ${FLAGS_CPP_STANDARD})
