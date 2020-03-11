@@ -21,7 +21,7 @@ function(create_cuda_executable)
 endfunction()
 
 function(create_cuda_library)
-    create_cuda_target(TARGET_TYPE "LIB" ${ARGN})
+    create_cuda_target(TARGET_TYPE "STATIC_LIB" ${ARGN})
 endfunction()
 
 function(create_cuda_static_library)
