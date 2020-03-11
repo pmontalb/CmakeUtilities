@@ -1,6 +1,7 @@
 include_guard()
 
 option(BUILD_SHARED_LIBS OFF)
+option(BUILD_USE_CCACHE ON)
 
 option(WARNINGS_TREAT_WARNINGS_AS_ERROR "Use -Werror" ON)
 option(WARNINGS_USE_WALL_AND_WEXTRA "Use -Wall and -Wextra" ON)
