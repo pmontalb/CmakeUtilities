@@ -52,9 +52,9 @@ function(create_target)
         add_test(NAME ${PREFIX_NAME}.test COMMAND ${PREFIX_NAME})
     endif()
 
-    if (NOT PREFIX_DO_NOT_USE_PEDANTIC_WARNINGS AND NOT PREFIX_DO_NOT_USE_WARNINGS)
+    if (NOT ${PREFIX_DO_NOT_USE_PEDANTIC_WARNINGS})
         target_compile_options(${PREFIX_NAME} PRIVATE ${PEDANTIC_WARNING_FLAGS})
-    elseif (NOT PREFIX_DO_NOT_USE_PEDANTIC_WARNINGS)
+    elseif (NOT PREFIX_DO_NOT_USE_WARNINGS)
         target_compile_options(${PREFIX_NAME} PRIVATE ${WARNING_FLAGS})
     endif()
 
