@@ -30,7 +30,7 @@ if (LANGUAGES_USE_CUDA)
         set(DEFAULT_CUDA_FLAGS ${DEFAULT_CUDA_FLAGS} --compiler-options -Wall)
     endif()
 
-    if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+    if (CMAKE_BUILD_TYPE STREQUAL "Release")
         # optimization flags
         set(DEFAULT_CUDA_FLAGS ${DEFAULT_CUDA_FLAGS} -Xptxas -O3)
 

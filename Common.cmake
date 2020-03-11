@@ -1,5 +1,15 @@
 include_guard()
 
+if (BUILD_USE_CCACHE)
+    find_program(CCACHE_PROGRAM ccache)
+    if(CCACHE_PROGRAM)
+        message("Using ccache")
+        set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
+    else()
+        message(WARNING "ccache not found, not using it")
+    endif()
+endif()
+
 enable_testing()
 enable_language(CXX)
 
