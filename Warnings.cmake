@@ -30,22 +30,24 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
     message(STATUS "Use pedantic warnings")
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -Weverything
-                -Wno-unknown-cuda-version
-                -Wno-c++98-compat
-                -Wno-c++98-compat-pedantic
-                -Wno-reserved-id-macro
-                -Wno-switch-enum
-                -Wno-unknown-pragmas
-                -Wno-disabled-macro-expansion
-                -Wno-unneeded-internal-declaration
-                -Wno-weak-vtables
-                -Wno-padded
-                -Wno-unused-macros
-                -Wno-exit-time-destructors
-                -Wno-unused-template
-                -Wno-covered-switch-default
-                -Wno-global-constructors)
+        if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Stan")
+            set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -Weverything
+                    -Wno-unknown-cuda-version
+                    -Wno-c++98-compat
+                    -Wno-c++98-compat-pedantic
+                    -Wno-reserved-id-macro
+                    -Wno-switch-enum
+                    -Wno-unknown-pragmas
+                    -Wno-disabled-macro-expansion
+                    -Wno-unneeded-internal-declaration
+                    -Wno-weak-vtables
+                    -Wno-padded
+                    -Wno-unused-macros
+                    -Wno-exit-time-destructors
+                    -Wno-unused-template
+                    -Wno-covered-switch-default
+                    -Wno-global-constructors)
+        endif()
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         if ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "9.")
             # https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt
