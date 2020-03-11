@@ -46,7 +46,7 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt
         set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
-                -Wabi-tag
+                #-Wabi-tag
                 -Waggregate-return
                 -Waggressive-loop-optimizations
                 -Wall
