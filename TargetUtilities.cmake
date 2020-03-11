@@ -77,7 +77,7 @@ function(create_cuda_target)
     if (PREFIX_TARGET_TYPE STREQUAL "EXE")
         add_executable(${PREFIX_NAME} ${PREFIX_SOURCES})
     elseif (PREFIX_TARGET_TYPE STREQUAL "LIB")
-        add_library(${PREFIX_NAME} ${PREFIX_SOURCES})
+        add_library(${PREFIX_NAME} SHARED ${PREFIX_SOURCES})  # shared by default!
     elseif (PREFIX_TARGET_TYPE STREQUAL "STATIC_LIB")
         add_library(${PREFIX_NAME} STATIC ${PREFIX_SOURCES})
     elseif (PREFIX_TARGET_TYPE STREQUAL "TEST")
