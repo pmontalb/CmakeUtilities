@@ -125,12 +125,12 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                 -Wstrict-null-sentinel
                 -Wstrict-overflow
                 -Wsubobject-linkage
-                -Wsuggest-attribute=cold
-                -Wsuggest-attribute=const
-                -Wsuggest-attribute=format
-                -Wsuggest-attribute=malloc
-                -Wsuggest-attribute=noreturn
-                -Wsuggest-attribute=pure
+#                -Wsuggest-attribute=cold
+#                -Wsuggest-attribute=const
+#                -Wsuggest-attribute=format
+#                -Wsuggest-attribute=malloc
+#                -Wsuggest-attribute=noreturn
+#                -Wsuggest-attribute=pure
                 -Wsuggest-final-methods
                 -Wsuggest-final-types
                 -Wsuggest-override
