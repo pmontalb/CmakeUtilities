@@ -1,5 +1,8 @@
 include_guard()
 
+if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "IWYU")
+    return()
+endif()
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     find_program(IWYU_PROGRAM iwyu)
     mark_as_advanced(IWYU_PROGRAM)
