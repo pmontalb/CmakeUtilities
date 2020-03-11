@@ -16,7 +16,7 @@ if (LANGUAGES_USE_CUDA)
     set(CMAKE_CUDA_COMPILER /usr/local/cuda-${LANGUAGES_CUDA_VERSION}/bin/nvcc CACHE PATH "" FORCE)
 
     if (NOT LANGUAGES_CUDA_ARCHITECTURE)
-        message(STATUS "Using gen 6.1 as nothing specified")
+        message(STATUS "Using gen 61 as nothing specified")
         set(LANGUAGES_CUDA_ARCHITECTURE 61)
     else()
         message(STATUS "Using gen ${LANGUAGES_CUDA_ARCHITECTURE}")
