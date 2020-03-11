@@ -30,7 +30,7 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
     message(STATUS "Use pedantic warnings")
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Stan")
+        if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Stan" AND NOT "${CMAKE_BUILD_TYPE}" STREQUAL "IWYU")
             set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -Weverything
                     -Wno-unknown-cuda-version
                     -Wno-c++98-compat
