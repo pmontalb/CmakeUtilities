@@ -10,6 +10,7 @@ if (BUILD_USE_CCACHE)
     endif()
 endif()
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 enable_testing()
 enable_language(CXX)
 
