@@ -8,6 +8,7 @@ include(cmake/OptimizationFlags.cmake)
 include(cmake/DebugFlags.cmake)
 include(cmake/SanitizerFlags.cmake)
 include(cmake/CodeCoverageFlags.cmake)
+include(cmake/IncludeWhatYouUse.cmake)
 
 if (NOT FLAGS_CPP_STANDARD)
     message(STATUS "Using C++14 standard as nothing specified")
