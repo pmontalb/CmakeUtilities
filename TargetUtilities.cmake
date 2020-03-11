@@ -56,6 +56,7 @@ function(create_target)
             set_property(TEST ${PREFIX_NAME}.test PROPERTY
                 ENVIRONMENT "ASAN_OPTIONS=protect_shadow_gap=0")
         endif()
+    endif()
 
     if (NOT ${PREFIX_DO_NOT_USE_PEDANTIC_WARNINGS})
         target_compile_options(${PREFIX_NAME} PRIVATE ${PEDANTIC_WARNING_FLAGS})
