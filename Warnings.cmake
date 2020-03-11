@@ -47,7 +47,7 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
         # https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt
         set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
                 #-Wabi-tag
-                -Waggregate-return
+                #-Waggregate-return
                 -Waggressive-loop-optimizations
                 -Wall
                 -Walloc-zero
