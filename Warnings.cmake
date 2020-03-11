@@ -44,7 +44,8 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                 -Wno-unused-macros
                 -Wno-exit-time-destructors
                 -Wno-unused-template
-                -Wno-covered-switch-default)
+                -Wno-covered-switch-default
+                -Wno-global-constructors)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt
         set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
