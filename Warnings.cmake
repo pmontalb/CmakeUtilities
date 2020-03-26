@@ -271,7 +271,7 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
         set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -w3 -diag-disable:remark -Wall -Wcheck -Werror -Werror-all -Wformat -Wformat-security
                 	                                -Wmissing-declarations -Wmissing-prototypes -Wnon-virtual-dtor
-                                                    -Wpointer-arith -Wreorder -Wshadow -Wsign-compare -Wstrict-aliasing
+                                                    -Wpointer-arith -Wreorder -Wshadow -Wsign-compare
                                                     -Wstrict-prototypes -Wtrigraphs -Wuninitialized)
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         message(FATAL "MSVC not supported")
