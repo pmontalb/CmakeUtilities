@@ -95,151 +95,151 @@ IF(NOT BLAS_FOUND)
 		endif(NOT _libraries_work)
 	endmacro(Check_Fortran_Libraries)
 
-	# Intel MKL?
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "mkl")))
-		FIND_PACKAGE(Mkl)
-		IF(MKL_FOUND)
-			SET(BLAS_INFO "mkl")
-			SET(BLAS_LIBRARIES ${MKL_LIBRARIES})
-			SET(BLAS_INCLUDE_DIR ${MKL_INCLUDE_DIR})
-			SET(BLAS_VERSION ${MKL_VERSION})
-		ENDIF(MKL_FOUND)
-	endif()
-
-	# Apple BLAS library?
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "accelerate")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"Accelerate")
-		if (BLAS_LIBRARIES)
-			set(BLAS_INFO "accelerate")
-			set(BLAS_IS_ACCELERATE 1)
-		endif (BLAS_LIBRARIES)
-	endif()
-
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "veclib")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"vecLib")
-		if (BLAS_LIBRARIES)
-			set(BLAS_INFO "veclib")
-		endif (BLAS_LIBRARIES)
-	endif()
-
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "open")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"openblas")
-		if(BLAS_LIBRARIES)
-			set(BLAS_INFO "open")
-		endif(BLAS_LIBRARIES)
-	endif()
-
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "open")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"openblas;pthread")
-		if(BLAS_LIBRARIES)
-			set(BLAS_INFO "open")
-		endif(BLAS_LIBRARIES)
-	endif()
-
-	if((NOT BLAS_LIBRARIES) AND (WIN32)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "open")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"libopenblas")
-		if(BLAS_LIBRARIES)
-			set(BLAS_INFO "open")
-		endif(BLAS_LIBRARIES)
-	endif()
-
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "goto")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"goto2;gfortran")
-		if (BLAS_LIBRARIES)
-			set(BLAS_INFO "goto")
-		endif (BLAS_LIBRARIES)
-	endif()
-
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "goto")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"goto2;gfortran;pthread")
-		if (BLAS_LIBRARIES)
-			set(BLAS_INFO "goto")
-		endif (BLAS_LIBRARIES)
-	endif()
-
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "acml")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"acml;gfortran")
-		if (BLAS_LIBRARIES)
-			set(BLAS_INFO "acml")
-		endif (BLAS_LIBRARIES)
-	endif()
-
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "FLAME")))
-		# FLAME's blis library (https://github.com/flame/blis)
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"blis")
-		if (BLAS_LIBRARIES)
-			set(BLAS_INFO "FLAME")
-		endif (BLAS_LIBRARIES)
-	endif()
-
-	# BLAS in ATLAS library? (http://math-atlas.sourceforge.net/)
-	if((NOT BLAS_LIBRARIES)
-			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "atlas")))
-		check_fortran_libraries(
-				BLAS_LIBRARIES
-				BLAS
-				sgemm
-				""
-				"ptf77blas;atlas;gfortran")
-		if (BLAS_LIBRARIES)
-			set(BLAS_INFO "atlas")
-		endif (BLAS_LIBRARIES)
-	endif()
+#	# Intel MKL?
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "mkl")))
+#		FIND_PACKAGE(Mkl)
+#		IF(MKL_FOUND)
+#			SET(BLAS_INFO "mkl")
+#			SET(BLAS_LIBRARIES ${MKL_LIBRARIES})
+#			SET(BLAS_INCLUDE_DIR ${MKL_INCLUDE_DIR})
+#			SET(BLAS_VERSION ${MKL_VERSION})
+#		ENDIF(MKL_FOUND)
+#	endif()
+#
+#	# Apple BLAS library?
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "accelerate")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"Accelerate")
+#		if (BLAS_LIBRARIES)
+#			set(BLAS_INFO "accelerate")
+#			set(BLAS_IS_ACCELERATE 1)
+#		endif (BLAS_LIBRARIES)
+#	endif()
+#
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "veclib")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"vecLib")
+#		if (BLAS_LIBRARIES)
+#			set(BLAS_INFO "veclib")
+#		endif (BLAS_LIBRARIES)
+#	endif()
+#
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "open")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"openblas")
+#		if(BLAS_LIBRARIES)
+#			set(BLAS_INFO "open")
+#		endif(BLAS_LIBRARIES)
+#	endif()
+#
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "open")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"openblas;pthread")
+#		if(BLAS_LIBRARIES)
+#			set(BLAS_INFO "open")
+#		endif(BLAS_LIBRARIES)
+#	endif()
+#
+#	if((NOT BLAS_LIBRARIES) AND (WIN32)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "open")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"libopenblas")
+#		if(BLAS_LIBRARIES)
+#			set(BLAS_INFO "open")
+#		endif(BLAS_LIBRARIES)
+#	endif()
+#
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "goto")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"goto2;gfortran")
+#		if (BLAS_LIBRARIES)
+#			set(BLAS_INFO "goto")
+#		endif (BLAS_LIBRARIES)
+#	endif()
+#
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "goto")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"goto2;gfortran;pthread")
+#		if (BLAS_LIBRARIES)
+#			set(BLAS_INFO "goto")
+#		endif (BLAS_LIBRARIES)
+#	endif()
+#
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "acml")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"acml;gfortran")
+#		if (BLAS_LIBRARIES)
+#			set(BLAS_INFO "acml")
+#		endif (BLAS_LIBRARIES)
+#	endif()
+#
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "FLAME")))
+#		# FLAME's blis library (https://github.com/flame/blis)
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"blis")
+#		if (BLAS_LIBRARIES)
+#			set(BLAS_INFO "FLAME")
+#		endif (BLAS_LIBRARIES)
+#	endif()
+#
+#	# BLAS in ATLAS library? (http://math-atlas.sourceforge.net/)
+#	if((NOT BLAS_LIBRARIES)
+#			AND ((NOT WITH_BLAS) OR (WITH_BLAS STREQUAL "atlas")))
+#		check_fortran_libraries(
+#				BLAS_LIBRARIES
+#				BLAS
+#				sgemm
+#				""
+#				"ptf77blas;atlas;gfortran")
+#		if (BLAS_LIBRARIES)
+#			set(BLAS_INFO "atlas")
+#		endif (BLAS_LIBRARIES)
+#	endif()
 
 	# Generic BLAS library?
 	if((NOT BLAS_LIBRARIES)

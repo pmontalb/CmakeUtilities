@@ -86,91 +86,91 @@ IF(NOT LAPACK_FOUND)
 
 	if(BLAS_FOUND)
 
-		# Intel MKL
-		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "mkl"))
-			IF(MKL_LAPACK_LIBRARIES)
-				SET(LAPACK_LIBRARIES ${MKL_LAPACK_LIBRARIES} ${MKL_LIBRARIES})
-			ELSE(MKL_LAPACK_LIBRARIES)
-				SET(LAPACK_LIBRARIES ${MKL_LIBRARIES})
-			ENDIF(MKL_LAPACK_LIBRARIES)
-			SET(LAPACK_INCLUDE_DIR ${MKL_INCLUDE_DIR})
-			SET(LAPACK_INFO "mkl")
-		ENDIF()
-
-		# Accelerate
-		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "accelerate"))
-			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
-			check_function_exists("cheev_" ACCELERATE_LAPACK_WORKS)
-			set(CMAKE_REQUIRED_LIBRARIES)
-			if(ACCELERATE_LAPACK_WORKS)
-				SET(LAPACK_INFO "accelerate")
-			else()
-				message(STATUS "Strangely, this Accelerate library does not support Lapack?!")
-			endif()
-		endif()
-
-		# vecLib
-		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "veclib"))
-			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
-			check_function_exists("cheev_" VECLIB_LAPACK_WORKS)
-			set(CMAKE_REQUIRED_LIBRARIES)
-			if(VECLIB_LAPACK_WORKS)
-				SET(LAPACK_INFO "veclib")
-			else()
-				message(STATUS "Strangely, this vecLib library does not support Lapack?!")
-			endif()
-		endif()
-
-		# OpenBlas
-		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "open"))
-			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
-			check_function_exists("cheev_" OPEN_LAPACK_WORKS)
-			set(CMAKE_REQUIRED_LIBRARIES)
-			if(OPEN_LAPACK_WORKS)
-				SET(LAPACK_INFO "open")
-			else()
-				message(STATUS "It seems OpenBlas has not been compiled with Lapack support")
-			endif()
-		endif()
-
-		# GotoBlas
-		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "goto"))
-			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
-			check_function_exists("cheev_" GOTO_LAPACK_WORKS)
-			set(CMAKE_REQUIRED_LIBRARIES)
-			if(GOTO_LAPACK_WORKS)
-				SET(LAPACK_INFO "goto")
-			else()
-				message(STATUS "It seems GotoBlas has not been compiled with Lapack support")
-			endif()
-		endif()
-
-		# FLAME
-		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "FLAME"))
-			check_lapack_libraries(
-					LAPACK_LIBRARIES
-					LAPACK
-					cheev
-					""
-					"flame"
-					"${BLAS_LIBRARIES}"
-			)
-			if(LAPACK_LIBRARIES)
-				SET(LAPACK_INFO "FLAME")
-			endif(LAPACK_LIBRARIES)
-		endif()
-
-		# ACML
-		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "acml"))
-			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
-			check_function_exists("cheev_" ACML_LAPACK_WORKS)
-			set(CMAKE_REQUIRED_LIBRARIES)
-			if(ACML_LAPACK_WORKS)
-				SET(LAPACK_INFO "acml")
-			else()
-				message(STATUS "Strangely, this ACML library does not support Lapack?!")
-			endif()
-		endif()
+#		# Intel MKL
+#		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "mkl"))
+#			IF(MKL_LAPACK_LIBRARIES)
+#				SET(LAPACK_LIBRARIES ${MKL_LAPACK_LIBRARIES} ${MKL_LIBRARIES})
+#			ELSE(MKL_LAPACK_LIBRARIES)
+#				SET(LAPACK_LIBRARIES ${MKL_LIBRARIES})
+#			ENDIF(MKL_LAPACK_LIBRARIES)
+#			SET(LAPACK_INCLUDE_DIR ${MKL_INCLUDE_DIR})
+#			SET(LAPACK_INFO "mkl")
+#		ENDIF()
+#
+#		# Accelerate
+#		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "accelerate"))
+#			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
+#			check_function_exists("cheev_" ACCELERATE_LAPACK_WORKS)
+#			set(CMAKE_REQUIRED_LIBRARIES)
+#			if(ACCELERATE_LAPACK_WORKS)
+#				SET(LAPACK_INFO "accelerate")
+#			else()
+#				message(STATUS "Strangely, this Accelerate library does not support Lapack?!")
+#			endif()
+#		endif()
+#
+#		# vecLib
+#		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "veclib"))
+#			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
+#			check_function_exists("cheev_" VECLIB_LAPACK_WORKS)
+#			set(CMAKE_REQUIRED_LIBRARIES)
+#			if(VECLIB_LAPACK_WORKS)
+#				SET(LAPACK_INFO "veclib")
+#			else()
+#				message(STATUS "Strangely, this vecLib library does not support Lapack?!")
+#			endif()
+#		endif()
+#
+#		# OpenBlas
+#		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "open"))
+#			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
+#			check_function_exists("cheev_" OPEN_LAPACK_WORKS)
+#			set(CMAKE_REQUIRED_LIBRARIES)
+#			if(OPEN_LAPACK_WORKS)
+#				SET(LAPACK_INFO "open")
+#			else()
+#				message(STATUS "It seems OpenBlas has not been compiled with Lapack support")
+#			endif()
+#		endif()
+#
+#		# GotoBlas
+#		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "goto"))
+#			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
+#			check_function_exists("cheev_" GOTO_LAPACK_WORKS)
+#			set(CMAKE_REQUIRED_LIBRARIES)
+#			if(GOTO_LAPACK_WORKS)
+#				SET(LAPACK_INFO "goto")
+#			else()
+#				message(STATUS "It seems GotoBlas has not been compiled with Lapack support")
+#			endif()
+#		endif()
+#
+#		# FLAME
+#		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "FLAME"))
+#			check_lapack_libraries(
+#					LAPACK_LIBRARIES
+#					LAPACK
+#					cheev
+#					""
+#					"flame"
+#					"${BLAS_LIBRARIES}"
+#			)
+#			if(LAPACK_LIBRARIES)
+#				SET(LAPACK_INFO "FLAME")
+#			endif(LAPACK_LIBRARIES)
+#		endif()
+#
+#		# ACML
+#		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "acml"))
+#			SET(CMAKE_REQUIRED_LIBRARIES ${BLAS_LIBRARIES})
+#			check_function_exists("cheev_" ACML_LAPACK_WORKS)
+#			set(CMAKE_REQUIRED_LIBRARIES)
+#			if(ACML_LAPACK_WORKS)
+#				SET(LAPACK_INFO "acml")
+#			else()
+#				message(STATUS "Strangely, this ACML library does not support Lapack?!")
+#			endif()
+#		endif()
 
 		# Generic LAPACK library?
 		IF((NOT LAPACK_INFO) AND (BLAS_INFO STREQUAL "generic"))
