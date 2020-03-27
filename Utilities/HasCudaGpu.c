@@ -16,7 +16,7 @@ int main() {
 		if (properties.major != 9999) /* 9999 means emulation only */
 			++gpuDeviceCount;
 	}
-	printf("%d GPU CUDA device(s) found\n", gpuDeviceCount);
+	printf("%d GPU CUDA device(s) found", gpuDeviceCount);
 
 	/* don't just return the number of gpus, because other runtime cuda
 	   errors can also yield non-zero return values */
