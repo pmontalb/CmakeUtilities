@@ -46,7 +46,8 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                     -Wno-exit-time-destructors
                     -Wno-unused-template
                     -Wno-covered-switch-default
-                    -Wno-global-constructors)
+                    -Wno-global-constructors
+                    -Wno-missing-noreturn)
         endif()
     elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         if ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "9.")
