@@ -102,7 +102,6 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                     -Wmissing-declarations
                     -Wmissing-include-dirs
                     -Wmultichar
-                    -Wmultiple-inheritance
                     -Wnoexcept
                     -Wnon-template-friend
                     -Wnull-dereference
