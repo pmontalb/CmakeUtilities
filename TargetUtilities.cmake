@@ -1,6 +1,6 @@
 include_guard()
 
-if (BUILD_TESTING)
+if (CMAKE_TESTING_ENABLED)
     add_custom_target(build_and_test COMMAND ${CMAKE_CTEST_COMMAND})
 endif()
 
@@ -54,7 +54,7 @@ function(create_target)
     elseif (PREFIX_TARGET_TYPE STREQUAL "TEST")
         add_executable(${PREFIX_NAME} ${PREFIX_SOURCES})
  	    add_test(NAME ${PREFIX_NAME}.test COMMAND ${PREFIX_NAME})
-        add_dependencies(build_and_test ${PREFIX_NAME} )
+        add_dependencies(build_and_test ${PREFIX_NAME})
 
         if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan" AND LANGUAGES_USE_CUDA)
             # https://github.com/google/sanitizers/issues/629
