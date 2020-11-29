@@ -26,6 +26,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unused-function)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unknown-pragmas -Wno-unused-function -Wno-unused-macros)
+    if ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "8.")
+        set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-psabi)
+    endif()
+
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
     set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unknown-pragmas -Wno-unused-function)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
@@ -40,8 +44,15 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Stan" AND NOT "${CMAKE_BUILD_TYPE}" STREQUAL "IWYU")
+	    if ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "7.")
+		    set(UNKNOWN_CUDA_WARNING "")
+	    else()
+		    set(UNKNOWN_CUDA_WARNING -Wno-unknown-cuda-version)
+	    endif()
+	    mark_as_advanced(UNKNOWN_CUDA_WARNING)
+
             set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -Weverything
-                    -Wno-unknown-cuda-version
+                    ${UNKNOWN_CUDA_WARNING}
                     -Wno-c++98-compat
                     -Wno-c++98-compat-pedantic
                     -Wno-reserved-id-macro
@@ -170,6 +181,112 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                     -Wwrite-strings
                     -Wzero-as-null-pointer-constant)
         elseif ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "7.")
+            set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
+                    #-Wabi-tag
+                    #-Waggregate-return
+                    -Waggressive-loop-optimizations
+                    -Wall
+                    -Walloc-zero
+                    -Walloca
+                    -Wattributes
+                    -Wbuiltin-declaration-mismatch
+                    -Wbuiltin-macro-redefined
+                    -Wcast-align
+                    -Wcast-qual
+                    -Wconditionally-supported
+                    -Wconversion
+                    -Wconversion-null
+                    -Wcoverage-mismatch
+                    -Wcpp
+                    -Wctor-dtor-privacy
+                    -Wdate-time
+                    -Wdelete-incomplete
+                    -Wdeprecated
+                    -Wdeprecated-declarations
+                    -Wdisabled-optimization
+                    -Wdiv-by-zero
+                    -Wdouble-promotion
+                    -Wduplicated-branches
+                    -Wduplicated-cond
+                    -Weffc++
+                    -Wfloat-equal
+                    -Wformat-signedness
+                    -Wfree-nonheap-object
+                    -Whsa
+                    -Wignored-attributes
+                    -Wimport # DUMMY switch
+                    -Winherited-variadic-ctor
+                    #                -Winline
+                    -Wint-to-pointer-cast
+                    -Winvalid-memory-model
+                    -Winvalid-offsetof
+                    -Winvalid-pch
+                    -Wliteral-suffix
+                    -Wlogical-op
+                    -Wlto-type-mismatch
+                    -Wmissing-declarations
+                    -Wmissing-include-dirs
+                    -Wmultichar
+                    -Wmultiple-inheritance
+                    -Wnoexcept
+                    -Wnon-template-friend
+                    -Wnull-dereference
+                    -Wodr
+                    -Wold-style-cast
+                    -Woverflow
+                    #-Woverloaded-virtual
+                    -Wpacked
+                    -Wpacked-bitfield-compat
+                    #-Wpadded
+                    -Wpedantic
+                    -Wpmf-conversions
+                    -Wpointer-compare
+                    -Wpragmas
+                    -Wredundant-decls
+                    -Wregister
+                    -Wreturn-local-addr
+                    -Wscalar-storage-order
+                    -Wshadow
+                    -Wshift-count-negative
+                    -Wshift-count-overflow
+                    -Wshift-negative-value
+                    -Wsign-promo
+                    -Wsizeof-array-argument
+                    -Wstack-protector
+                    -Wstrict-aliasing
+                    -Wstrict-null-sentinel
+                    -Wstrict-overflow
+                    -Wsubobject-linkage
+                    #                -Wsuggest-attribute=cold
+                    #                -Wsuggest-attribute=const
+                    #                -Wsuggest-attribute=format
+                    #                -Wsuggest-attribute=malloc
+                    #                -Wsuggest-attribute=noreturn
+                    #                -Wsuggest-attribute=pure
+                    #                -Wsuggest-final-methods
+                    #                -Wsuggest-final-types
+                    -Wsuggest-override
+                    -Wswitch-bool
+                    -Wswitch-default
+                    #-Wswitch-enum
+                    -Wswitch-unreachable
+                    -Wsync-nand
+                    -Wsynth
+                    -Wterminate
+                    -Wtrampolines
+                    #-Wundef
+                    -Wunreachable-code # DUMMY switch
+                    -Wunsafe-loop-optimizations # DUMMY switch
+                    -Wunused-result
+                    -Wuseless-cast
+                    -Wvarargs
+                    -Wvector-operation-performance
+                    -Wvirtual-inheritance
+                    -Wvirtual-move-assign
+                    -Wvla
+                    -Wwrite-strings
+                    -Wzero-as-null-pointer-constant)
+        elseif ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "8.")
             set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
                     #-Wabi-tag
                     #-Waggregate-return
