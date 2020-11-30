@@ -1,7 +1,7 @@
 include_guard()
 
 if (CMAKE_TESTING_ENABLED)
-    add_custom_target(build_and_test COMMAND ${CMAKE_CTEST_COMMAND})
+    add_custom_target(build_and_test COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure)
 endif()
 
 function(create_executable)
