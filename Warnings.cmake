@@ -40,10 +40,10 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
 
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Stan" AND NOT "${CMAKE_BUILD_TYPE}" STREQUAL "IWYU")
-	    if ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "7.")
-		    set(UNKNOWN_CUDA_WARNING "")
+	    if ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "11.")
+            set(UNKNOWN_CUDA_WARNING -Wno-unknown-cuda-version)
 	    else()
-		    set(UNKNOWN_CUDA_WARNING -Wno-unknown-cuda-version)
+            set(UNKNOWN_CUDA_WARNING "")
 	    endif()
 	    mark_as_advanced(UNKNOWN_CUDA_WARNING)
 
