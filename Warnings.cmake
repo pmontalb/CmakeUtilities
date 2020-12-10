@@ -181,7 +181,6 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                     #-Wabi-tag
                     #-Waggregate-return
                     -Waggressive-loop-optimizations
-                    -Wall
                     -Walloc-zero
                     -Walloca
                     -Wattributes
