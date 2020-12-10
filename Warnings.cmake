@@ -26,10 +26,6 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unused-function)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unknown-pragmas -Wno-unused-function -Wno-unused-macros)
-    if ("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "8.")
-        set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-psabi)
-    endif()
-
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
     set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unknown-pragmas -Wno-unused-function)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
@@ -227,7 +223,6 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                     -Wmissing-declarations
                     -Wmissing-include-dirs
                     -Wmultichar
-                    -Wmultiple-inheritance
                     -Wnoexcept
                     -Wnon-template-friend
                     -Wnull-dereference
@@ -333,7 +328,6 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
                     -Wmissing-declarations
                     -Wmissing-include-dirs
                     -Wmultichar
-                    -Wmultiple-inheritance
                     -Wnoexcept
                     -Wnon-template-friend
                     -Wnull-dereference
