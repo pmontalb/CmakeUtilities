@@ -76,7 +76,6 @@ function(create_target)
 
     target_compile_definitions(${PREFIX_NAME} PUBLIC ${PREFIX_PUBLIC_COMPILE_DEFINITIONS})
     target_compile_definitions(${PREFIX_NAME} PRIVATE ${PREFIX_PRIVATE_COMPILE_DEFINITIONS})
-    target_compile_definitions(${PREFIX_NAME} PRIVATE ${STL_DEBUG_FLAGS})
 
     target_link_libraries(${PREFIX_NAME} ${PREFIX_DEPENDENCIES})
     target_link_libraries(${PREFIX_NAME} ${PREFIX_SYSTEM_DEPENDENCIES})
