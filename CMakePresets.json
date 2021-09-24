@@ -1,0 +1,247 @@
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 14,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "binaryDir": "cmake-build-${presetName}",
+      "hidden": true,
+      "generator": "Ninja",
+      "displayName": "Base Template",
+      "description": "Template to be used for concrete presets",
+      "cacheVariables": {
+        "CMAKE_DEPENDS_USE_COMPILER": "FALSE",
+        "BUILD_SYSTEM_USE_CCACHE": "ON",
+        "LANGUAGES_USE_64_BITS": "ON",
+        "WARNINGS_TREAT_WARNINGS_AS_ERROR": "ON",
+        "WARNINGS_USE_PEDANTIC_WARNINGS": "ON",
+        "WARNINGS_WALL_AND_WEXTRA": "ON"
+      },
+      "environment": {
+      },
+      "vendor": {
+      }
+    },
+    {
+      "name": "debug",
+      "hidden": true,
+      "displayName": "Debug Template",
+      "description": "Default debug build",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "DEBUG_USE_STL_DEBUG": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "hidden": true,
+      "displayName": "Release Template",
+      "description": "Default release build",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPTIMIZATIONS_USE_NATIVE_ARCHITECTURE": "ON",
+        "OPTIMIZATIONS_GENERATE_DEBUG_INFO": "ON"
+      }
+    },
+    {
+      "name": "asan",
+      "hidden": true,
+      "displayName": "Asan Template",
+      "description": "Default ASAN build",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Asan"
+      }
+    },
+    {
+      "name": "ubsan",
+      "hidden": true,
+      "displayName": "Ubsan Template",
+      "description": "Default UBSAN build",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Ubsan"
+      }
+    },
+    {
+      "name": "tsan",
+      "hidden": true,
+      "displayName": "Tsan Template",
+      "description": "Default TSAN build",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Tsan"
+      }
+    },
+    {
+      "name": "coverage",
+      "hidden": true,
+      "displayName": "Coverage Template",
+      "description": "Default Coverage build",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Coverage"
+      }
+    },
+    {
+      "name": "ofast",
+      "hidden": true,
+      "displayName": "-Ofast Template",
+      "description": "-Ofast build",
+      "inherits": "release",
+      "cacheVariables": {
+        "OPTIMIZATIONS_USE_OFAST": "ON"
+      }
+    },
+    {
+      "name": "lto",
+      "hidden": true,
+      "displayName": "LTO Template",
+      "description": "Link-Time-Optimization build",
+      "inherits": "release",
+      "cacheVariables": {
+        "OPTIMIZATIONS_USE_LTO": "ON"
+      }
+    },
+    {
+      "name": "memory-opt",
+      "hidden": true,
+      "displayName": "Memory Optimization Template",
+      "description": "Graphite/Polly build",
+      "inherits": "release",
+      "cacheVariables": {
+        "OPTIMIZATIONS_USE_MEMORY_OPTIMIZATION": "ON"
+      }
+    },
+    {
+      "name": "rel-no-except",
+      "hidden": true,
+      "displayName": "Release w/o exceptions Template",
+      "description": "Release with no exceptions build",
+      "inherits": "release",
+      "cacheVariables": {
+        "OPTIMIZATIONS_DISABLE_EXCEPTIONS": "ON"
+      }
+    },
+
+    {
+      "name": "gcc",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "/usr/bin/gcc-11",
+        "CMAKE_CXX_COMPILER": "/usr/bin/g++-11"
+      }
+    },
+    {
+      "name": "clang",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "/usr/bin/clang-12",
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++-11"
+      }
+    },
+
+    {
+      "name": "gcc-debug",
+      "inherits": ["gcc", "debug"]
+    },
+    {
+      "name": "gcc-release",
+      "inherits": ["gcc", "release"]
+    },
+    {
+      "name": "gcc-asan",
+      "inherits": ["gcc", "asan"]
+    },
+    {
+      "name": "gcc-ubsan",
+      "inherits": ["gcc", "ubsan"]
+    },
+    {
+      "name": "gcc-tsan",
+      "inherits": ["gcc", "tsan"]
+    },
+    {
+      "name": "gcc-coverage",
+      "inherits": ["gcc", "coverage"]
+    },
+    
+    {
+      "name": "clang-debug",
+      "inherits": ["clang", "debug"]
+    },
+    {
+      "name": "clang-release",
+      "inherits": ["clang", "release"]
+    },
+    {
+      "name": "clang-asan",
+      "inherits": ["clang", "asan"]
+    },
+    {
+      "name": "clang-ubsan",
+      "inherits": ["clang", "ubsan"]
+    },
+    {
+      "name": "clang-tsan",
+      "inherits": ["clang", "tsan"]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "gcc-debug",
+      "configurePreset": "gcc-debug"
+    },
+    {
+      "name": "gcc-release",
+      "configurePreset": "gcc-release"
+    },
+    {
+      "name": "gcc-asan",
+      "configurePreset": "gcc-asan"
+    },
+    {
+      "name": "gcc-ubsan",
+      "configurePreset": "gcc-ubsan"
+    },
+    {
+      "name": "gcc-tsan",
+      "configurePreset": "gcc-tsan"
+    },
+    {
+      "name": "gcc-coverage",
+      "configurePreset": "gcc-coverage"
+    },
+
+    {
+      "name": "clang-debug",
+      "configurePreset": "clang-debug"
+    },
+    {
+      "name": "clang-release",
+      "configurePreset": "clang-release"
+    },
+    {
+      "name": "clang-asan",
+      "configurePreset": "clang-asan"
+    },
+    {
+      "name": "clang-ubsan",
+      "configurePreset": "clang-ubsan"
+    },
+    {
+      "name": "clang-tsan",
+      "configurePreset": "clang-tsan"
+    }
+  ],
+  "testPresets": [
+  ]
+}
