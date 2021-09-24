@@ -33,3 +33,5 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/CMakePresets.json ${CMAKE_SOURCE_DIR}/CMakePresets.json)
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/Utilities/IgnoreWarning.h ${CMAKE_SOURCE_DIR}/IgnoreWarning.h)
+include_directories(${CMAKE_SOURCE_DIR})
