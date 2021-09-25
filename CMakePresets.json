@@ -19,7 +19,8 @@
         "LANGUAGES_USE_64_BITS": "ON",
         "WARNINGS_TREAT_WARNINGS_AS_ERROR": "ON",
         "WARNINGS_USE_PEDANTIC_WARNINGS": "ON",
-        "WARNINGS_WALL_AND_WEXTRA": "ON"
+        "WARNINGS_USE_WALL_AND_WEXTRA": "ON",
+        "FG_BUILD_EXAMPLES": "OFF"
       },
       "environment": {
       },
@@ -145,7 +146,7 @@
       "inherits": "base",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "/usr/bin/clang-12",
-        "CMAKE_CXX_COMPILER": "/usr/bin/clang++-11"
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++-12"
       }
     },
 
