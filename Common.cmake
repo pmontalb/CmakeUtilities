@@ -34,4 +34,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/CMakePresets.json ${CMAKE_SOURCE_DIR}/CMakePresets.json)
 execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/Utilities/IgnoreWarning.h ${CMAKE_SOURCE_DIR}/IgnoreWarning.h)
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/.pre-commit-config.yaml ${CMAKE_SOURCE_DIR}/.pre-commit-config.yaml)
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/.clang-format ${CMAKE_SOURCE_DIR}/.clang-format)
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/.clang-tidy ${CMAKE_SOURCE_DIR}/.clang-tidy)
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/.gitignore ${CMAKE_SOURCE_DIR}/.gitignore)
 include_directories(${CMAKE_SOURCE_DIR})

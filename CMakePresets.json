@@ -15,6 +15,7 @@
       "description": "Template to be used for concrete presets",
       "cacheVariables": {
         "CMAKE_DEPENDS_USE_COMPILER": "FALSE",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "BUILD_SYSTEM_USE_CCACHE": "ON",
         "LANGUAGES_USE_64_BITS": "ON",
         "WARNINGS_TREAT_WARNINGS_AS_ERROR": "ON",
