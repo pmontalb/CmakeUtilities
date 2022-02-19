@@ -13,7 +13,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [g++, clang++]
         preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, gcc-coverage, clang-debug, clang-asan, clang-ubsan, clang-tsan, clang-coverage]
 
     steps:
@@ -22,7 +21,7 @@ jobs:
     - name: Cmake
       run: |
         cd ${{runner.workspace}}
-        cmake . --preset=${{matrix.preset}} -DCMAKE_CXX_COMPILER=${{matrix.compiler}} -DBUILD_EXAMPLES=ON
+        cmake . --preset=${{matrix.preset}} -DBUILD_EXAMPLES=ON
       
     - name: Build
       run: |
