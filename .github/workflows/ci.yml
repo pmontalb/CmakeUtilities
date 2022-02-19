@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [g++, clang++]
+        preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, gcc-coverage, clang-debug, clang-asan, clang-ubsan, clang-tsan, clang-coverage]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Cmake
+      run: |
+        cd ${{runner.workspace}}
+        cmake . --preset=${{matrix.preset}} -DCMAKE_CXX_COMPILER=${{matrix.compiler}} -DBUILD_EXAMPLES=ON
+      
+    - name: Build
+      run: |
+        cd ${{runner.workspace}}/cmake-build-${{matrix.preset}}
+        ninja
+      
+    - name: Test
+      run: |
+        cd ${{runner.workspace}}/cmake-build-${{matrix.preset}}
+        ctest --output-on-failure --output-junit tests.xml
