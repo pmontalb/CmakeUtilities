@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, gcc-release, gcc-profile, gcc-ofast, gcc-memory-opt, gcc-lto, gcc-ofast-lto, gcc-memory-opt-lto, gcc-ofast-memory-opt-lto, clang-asan, clang-ubsan, clang-tsan, clang-release, clang-profile, clang-ofast, clang-memory-opt, clang-lto, clang-ofast-lto, clang-memory-opt-lto, clang-ofast-memory-opt-lto]
+        preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, gcc-coverage, gcc-release, gcc-profile, gcc-ofast, gcc-memory-opt, gcc-lto, gcc-ofast-lto, gcc-memory-opt-lto, gcc-ofast-memory-opt-lto, clang-asan, clang-ubsan, clang-tsan, clang-coverage, clang-release, clang-profile, clang-ofast, clang-memory-opt, clang-lto, clang-ofast-lto, clang-memory-opt-lto, clang-ofast-memory-opt-lto]
 
     steps:
     - name: Install gcc-11
