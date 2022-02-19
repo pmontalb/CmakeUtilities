@@ -13,16 +13,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, gcc-coverage, clang-debug, clang-asan, clang-ubsan, clang-tsan, clang-coverage]
+        preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, clang-debug, clang-asan, clang-ubsan, clang-tsan]
 
     steps:
     - uses: actions/checkout@v2
     
+    - name: actions-setup-cmake
+      uses: jwlawson/actions-setup-cmake@v1.4
+      
     - name: Cmake
       run: |
         cd ${{runner.workspace}}
-        cmake . --list-presets
-        cmake . --preset=${{matrix.preset}} -DBUILD_EXAMPLES=ON
+        cmake --preset=${{matrix.preset}} -DBUILD_EXAMPLES=ON
       
     - name: Build
       run: |
