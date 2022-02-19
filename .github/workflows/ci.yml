@@ -25,15 +25,15 @@ jobs:
       
     - name: Cmake
       run: |
-        cd ${{runner.workspace}}
+        cd ${{runner.workspace}}/CmakeUtilities
         cmake . --preset=${{matrix.preset}} -DBUILD_EXAMPLES=ON
       
     - name: Build
       run: |
-        cd ${{runner.workspace}}/cmake-build-${{matrix.preset}}
+        cd ${{runner.workspace}}/CmakeUtilities/cmake-build-${{matrix.preset}}
         ninja
       
     - name: Test
       run: |
-        cd ${{runner.workspace}}/cmake-build-${{matrix.preset}}
+        cd ${{runner.workspace}}/CmakeUtilities/cmake-build-${{matrix.preset}}
         ctest --output-on-failure --output-junit tests.xml
