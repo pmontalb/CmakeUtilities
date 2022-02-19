@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, clang-debug, clang-asan, clang-ubsan, clang-tsan]
+        preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, clang-asan, clang-ubsan, clang-tsan]
 
     steps:
     - name: Install gcc-11
