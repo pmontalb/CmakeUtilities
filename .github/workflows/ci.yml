@@ -53,4 +53,4 @@ jobs:
     - name: Test
       run: |
         cd ${{runner.workspace}}/CmakeUtilities/cmake-build-${{matrix.preset}}
-        ctest --output-on-failure --output-junit tests.xml
+        ninja build-and-test
