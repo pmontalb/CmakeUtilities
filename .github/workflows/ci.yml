@@ -53,4 +53,4 @@ jobs:
     - name: Test
       run: |
         cd ${{runner.workspace}}/CmakeUtilities/cmake-build-${{matrix.preset}}
-        ninja build-and-test
+        ninja build_and_test
