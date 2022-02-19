@@ -16,12 +16,16 @@ jobs:
         preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, clang-debug, clang-asan, clang-ubsan, clang-tsan]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
     
-    - name: actions-setup-cmake
+    - name: Install cmake
       uses: jwlawson/actions-setup-cmake@v1.12
       with:
         cmake-version: '3.22.x'
+        
+    - name: Install ninja
+      uses: seanmiddleditch/gha-setup-ninja@v3
       
     - name: Cmake
       run: |
