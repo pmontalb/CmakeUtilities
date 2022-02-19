@@ -1,6 +1,6 @@
 include_guard()
 
-set(ARCHI_FLAG "")
+set(ARCHI_FLAG "" CACHE STRING "")
 mark_as_advanced(ARCHI_FLAG)
 
 if (OPTIMIZATIONS_CUSTOM_TUNING)

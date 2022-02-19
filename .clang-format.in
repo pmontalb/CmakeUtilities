@@ -143,6 +143,7 @@ Standard:        Latest
 StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
+  - __IGNORE_WARNING__
 TabWidth:        4
 UseCRLF:         false
 UseTab:          Always

@@ -21,7 +21,7 @@
         "WARNINGS_TREAT_WARNINGS_AS_ERROR": "ON",
         "WARNINGS_USE_PEDANTIC_WARNINGS": "ON",
         "WARNINGS_USE_WALL_AND_WEXTRA": "ON",
-        "FG_BUILD_EXAMPLES": "OFF"
+        "BUILD_EXAMPLES":  "ON"
       },
       "environment": {
       },
@@ -49,6 +49,16 @@
         "CMAKE_BUILD_TYPE": "Release",
         "OPTIMIZATIONS_USE_NATIVE_ARCHITECTURE": "ON",
         "OPTIMIZATIONS_GENERATE_DEBUG_INFO": "ON"
+      }
+    },
+    {
+      "name": "profile",
+      "hidden": true,
+      "displayName": "Release Template",
+      "description": "Default release build",
+      "inherits": "release",
+      "cacheVariables": {
+        "OPTIMIZATIONS_DO_NOT_OMIT_FRAME_POINTER": "ON"
       }
     },
     {
@@ -102,16 +112,6 @@
       }
     },
     {
-      "name": "lto",
-      "hidden": true,
-      "displayName": "LTO Template",
-      "description": "Link-Time-Optimization build",
-      "inherits": "release",
-      "cacheVariables": {
-        "OPTIMIZATIONS_USE_LTO": "ON"
-      }
-    },
-    {
       "name": "memory-opt",
       "hidden": true,
       "displayName": "Memory Optimization Template",
@@ -122,16 +122,16 @@
       }
     },
     {
-      "name": "rel-no-except",
+      "name": "lto",
       "hidden": true,
-      "displayName": "Release w/o exceptions Template",
-      "description": "Release with no exceptions build",
+      "displayName": "LTO Template",
+      "description": "Link-Time-Optimization build",
       "inherits": "release",
       "cacheVariables": {
-        "OPTIMIZATIONS_DISABLE_EXCEPTIONS": "ON"
+        "OPTIMIZATIONS_USE_LTO": "ON"
       }
     },
-
+    
     {
       "name": "gcc",
       "hidden": true,
@@ -156,10 +156,6 @@
       "inherits": ["gcc", "debug"]
     },
     {
-      "name": "gcc-release",
-      "inherits": ["gcc", "release"]
-    },
-    {
       "name": "gcc-asan",
       "inherits": ["gcc", "asan"]
     },
@@ -175,14 +171,42 @@
       "name": "gcc-coverage",
       "inherits": ["gcc", "coverage"]
     },
-    
+    {
+      "name": "gcc-release",
+      "inherits": ["gcc", "release"]
+    },
+    {
+      "name": "gcc-profile",
+      "inherits": ["gcc", "profile"]
+    },
+    {
+      "name": "gcc-ofast",
+      "inherits": ["gcc", "ofast"]
+    },
+    {
+      "name": "gcc-memory-opt",
+      "inherits": ["gcc", "memory-opt"]
+    },
+    {
+      "name": "gcc-lto",
+      "inherits": ["gcc", "lto"]
+    },
+    {
+      "name": "gcc-ofast-lto",
+      "inherits": ["gcc", "ofast", "lto"]
+    },
+    {
+      "name": "gcc-memory-opt-lto",
+      "inherits": ["gcc", "memory-opt", "lto"]
+    },
+    {
+      "name": "gcc-ofast-memory-opt-lto",
+      "inherits": ["gcc", "ofast", "memory-opt", "lto"]
+    },
+
     {
       "name": "clang-debug",
       "inherits": ["clang", "debug"]
-    },
-    {
-      "name": "clang-release",
-      "inherits": ["clang", "release"]
     },
     {
       "name": "clang-asan",
@@ -195,16 +219,48 @@
     {
       "name": "clang-tsan",
       "inherits": ["clang", "tsan"]
+    },
+    {
+      "name": "clang-coverage",
+      "inherits": ["clang", "coverage"]
+    },
+    {
+      "name": "clang-release",
+      "inherits": ["clang", "release"]
+    },
+    {
+      "name": "clang-profile",
+      "inherits": ["clang", "profile"]
+    },
+    {
+      "name": "clang-ofast",
+      "inherits": ["clang", "ofast"]
+    },
+    {
+      "name": "clang-memory-opt",
+      "inherits": ["clang", "memory-opt"]
+    },
+    {
+      "name": "clang-lto",
+      "inherits": ["clang", "lto"]
+    },
+    {
+      "name": "clang-ofast-lto",
+      "inherits": ["clang", "ofast", "lto"]
+    },
+    {
+      "name": "clang-memory-opt-lto",
+      "inherits": ["clang", "memory-opt", "lto"]
+    },
+    {
+      "name": "clang-ofast-memory-opt-lto",
+      "inherits": ["clang", "ofast", "memory-opt", "lto"]
     }
   ],
   "buildPresets": [
     {
       "name": "gcc-debug",
       "configurePreset": "gcc-debug"
-    },
-    {
-      "name": "gcc-release",
-      "configurePreset": "gcc-release"
     },
     {
       "name": "gcc-asan",
@@ -222,14 +278,42 @@
       "name": "gcc-coverage",
       "configurePreset": "gcc-coverage"
     },
+    {
+      "name": "gcc-release",
+      "configurePreset": "gcc-release"
+    },
+    {
+      "name": "gcc-profile",
+      "configurePreset": "gcc-profile"
+    },
+    {
+      "name": "gcc-ofast",
+      "configurePreset": "gcc-ofast"
+    },
+    {
+      "name": "gcc-memory-opt",
+      "configurePreset": "gcc-memory-opt"
+    },
+    {
+      "name": "gcc-lto",
+      "configurePreset": "gcc-lto"
+    },
+    {
+      "name": "gcc-ofast-lto",
+      "configurePreset": "gcc-ofast-lto"
+    },
+    {
+      "name": "gcc-memory-opt-lto",
+      "configurePreset": "gcc-memory-opt-lto"
+    },
+    {
+      "name": "gcc-ofast-memory-opt-lto",
+      "configurePreset": "gcc-ofast-memory-opt-lto"
+    },
 
     {
       "name": "clang-debug",
       "configurePreset": "clang-debug"
-    },
-    {
-      "name": "clang-release",
-      "configurePreset": "clang-release"
     },
     {
       "name": "clang-asan",
@@ -242,6 +326,42 @@
     {
       "name": "clang-tsan",
       "configurePreset": "clang-tsan"
+    },
+    {
+      "name": "clang-coverage",
+      "configurePreset": "clang-coverage"
+    },
+    {
+      "name": "clang-release",
+      "configurePreset": "clang-release"
+    },
+    {
+      "name": "clang-profile",
+      "configurePreset": "clang-profile"
+    },
+    {
+      "name": "clang-ofast",
+      "configurePreset": "clang-ofast"
+    },
+    {
+      "name": "clang-memory-opt",
+      "configurePreset": "clang-memory-opt"
+    },
+    {
+      "name": "clang-lto",
+      "configurePreset": "clang-lto"
+    },
+    {
+      "name": "clang-ofast-lto",
+      "configurePreset": "clang-ofast-lto"
+    },
+    {
+      "name": "clang-memory-opt-lto",
+      "configurePreset": "clang-memory-opt-lto"
+    },
+    {
+      "name": "clang-ofast-memory-opt-lto",
+      "configurePreset": "clang-ofast-memory-opt-lto"
     }
   ],
   "testPresets": [

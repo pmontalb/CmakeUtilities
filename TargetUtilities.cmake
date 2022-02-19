@@ -56,10 +56,20 @@ function(create_target)
  	    add_test(NAME ${PREFIX_NAME}.test COMMAND ${PREFIX_NAME})
         add_dependencies(build_and_test ${PREFIX_NAME})
 
-        if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan" AND LANGUAGES_USE_CUDA)
-            # https://github.com/google/sanitizers/issues/629
+        if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan")
             set_property(TEST ${PREFIX_NAME}.test PROPERTY
-                ENVIRONMENT "ASAN_OPTIONS=protect_shadow_gap=0")
+                    ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1")
+
+            if (LANGUAGES_USE_CUDA)
+                # https://github.com/google/sanitizers/issues/629
+                set_property(TEST ${PREFIX_NAME}.test PROPERTY
+                    ENVIRONMENT "ASAN_OPTIONS=protect_shadow_gap=0")
+            endif()
+        endif()
+
+        if ("${CMAKE_BUILD_TYPE}" STREQUAL "Tsan")
+            set_property(TEST ${PREFIX_NAME}.test PROPERTY
+                    ENVIRONMENT "TSAN_OPTIONS=halt_on_error=1")
         endif()
     endif()
 

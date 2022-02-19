@@ -1,7 +1,5 @@
 include_guard()
 
-mark_as_advanced(CMAKE_CXX_FLAGS_ASAN)
-
 if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Asan")
     return()
 endif()
@@ -15,3 +13,5 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     message(FATAL "MSVC not supported")
 endif()
+
+mark_as_advanced(CMAKE_CXX_FLAGS_ASAN)
