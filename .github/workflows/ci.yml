@@ -21,6 +21,7 @@ jobs:
     - name: Cmake
       run: |
         cd ${{runner.workspace}}
+        ls
         cmake . --preset=${{matrix.preset}} -DBUILD_EXAMPLES=ON
       
     - name: Build
