@@ -71,6 +71,11 @@ function(create_target)
             set_property(TEST ${PREFIX_NAME}.test PROPERTY
                     ENVIRONMENT "TSAN_OPTIONS=halt_on_error=1")
         endif()
+
+        if ("${CMAKE_BUILD_TYPE}" STREQUAL "Ubsan")
+            set_property(TEST ${PREFIX_NAME}.test PROPERTY
+                    ENVIRONMENT "UBSAN_OPTIONS=print_stacktrace=1")
+        endif()
     endif()
 
     if (NOT ${PREFIX_DO_NOT_USE_PEDANTIC_WARNINGS})
