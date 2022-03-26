@@ -50,10 +50,9 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
 				-Wno-covered-switch-default
 				-Wno-exit-time-destructors
 				-Wno-global-constructors)
-	endif ()
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-	### https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt ###
-	set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
+	elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+		### https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt ###
+		set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
 			### -Wabi
 			#    -Wnoexcept-type
 			#    -Wpsabi
@@ -321,11 +320,12 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 			-Wwrite-strings
 			-Wzero-as-null-pointer-constant)
 
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-	set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -w3 -diag-disable:remark -Wall -Wcheck -Werror -Werror-all -Wformat -Wformat-security
+	elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+		set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -w3 -diag-disable:remark -Wall -Wcheck -Werror -Werror-all -Wformat -Wformat-security
 			-Wmissing-declarations -Wmissing-prototypes -Wnon-virtual-dtor
 			-Wpointer-arith -Wreorder -Wshadow -Wsign-compare
 			-Wstrict-prototypes -Wtrigraphs -Wuninitialized)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-	set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} /Wall)
-endif ()
+	elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+		set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} /Wall)
+	endif ()
+endif()
