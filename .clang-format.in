@@ -56,7 +56,7 @@ BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeColon
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: false
-ColumnLimit:     2000
+ColumnLimit:     120
 CommentPragmas:  '^ IWYU pragma:'
 CompactNamespaces: true
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
@@ -144,6 +144,7 @@ StatementMacros:
   - Q_UNUSED
   - QT_REQUIRE_VERSION
   - __IGNORE_WARNING__
+  - pragma
 TabWidth:        4
 UseCRLF:         false
 UseTab:          Always
@@ -153,4 +154,5 @@ UseTab:          Always
 #  - BOOST_PP_STRINGIZE
 #  - NS_SWIFT_NAME
 #  - CF_SWIFT_NAME
+#  - pragma
 ...

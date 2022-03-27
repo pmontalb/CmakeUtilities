@@ -77,7 +77,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 if (MISC_RUN_SYMLINK)
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/CMakePresets.json)
-        file(COPY ${CMAKE_SOURCE_DIR}/cmake/CMakePresets.json ${CMAKE_SOURCE_DIR}/CMakePresets.json)
+        file(COPY_FILE ${CMAKE_SOURCE_DIR}/cmake/CMakePresets.json ${CMAKE_SOURCE_DIR}/CMakePresets.json)
     endif()
 
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/IgnoreWarning.h)
