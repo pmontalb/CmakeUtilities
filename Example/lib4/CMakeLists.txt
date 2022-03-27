@@ -2,7 +2,7 @@
 create_library(
 		NAME lib4
 		SOURCES lib4.cpp
-		PUBLIC_INCLUDE_DIRECTORIES Example
+		PUBLIC_INCLUDE_DIRECTORIES .
 )
 
 if (CMAKE_BUILD_TYPE MATCHES "Tsan")
