@@ -59,6 +59,12 @@ mark_as_advanced(OPTIM_LTO_FLAG)
 if (OPTIMIZATIONS_USE_LTO)
     message(STATUS "Using LTO")
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+
+    # on Linux, this seems to be necessary [https://gitlab.kitware.com/cmake/cmake/-/issues/20818]
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET(CMAKE_AR ${CMAKE_CXX_COMPILER_AR} CACHE PATH "AR" FORCE)
+        SET(CMAKE_RANLIB ${CMAKE_CXX_COMPILER_RANLIB} CACHE PATH "RANLIB" FORCE)
+    endif()
 endif()
 
 set(OPTIM_FRAME_POINTER "" CACHE STRING "")

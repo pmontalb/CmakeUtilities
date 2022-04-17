@@ -99,6 +99,10 @@ if (MISC_RUN_SYMLINK)
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/.gitignore)
         file(CREATE_LINK ${CMAKE_SOURCE_DIR}/cmake/.gitignore.in ${CMAKE_SOURCE_DIR}/.gitignore SYMBOLIC)
     endif()
+
+    if (NOT EXISTS ${CMAKE_SOURCE_DIR}/build.py)
+        file(CREATE_LINK ${CMAKE_SOURCE_DIR}/cmake/build.py.in ${CMAKE_SOURCE_DIR}/build.py SYMBOLIC)
+    endif()
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR})

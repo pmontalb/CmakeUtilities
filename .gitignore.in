@@ -47,3 +47,4 @@ IgnoreWarning.h
 .clang-format
 .clang-tidy
 .gitignore
+build.py

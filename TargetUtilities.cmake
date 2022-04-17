@@ -65,16 +65,17 @@ function(create_target)
                 set_property(TEST ${PREFIX_NAME}.test PROPERTY
                     ENVIRONMENT "ASAN_OPTIONS=protect_shadow_gap=0")
             endif()
-        endif()
-
-        if ("${CMAKE_BUILD_TYPE}" STREQUAL "Tsan")
+        elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "Tsan")
             set_property(TEST ${PREFIX_NAME}.test PROPERTY
                     ENVIRONMENT "TSAN_OPTIONS=halt_on_error=1")
-        endif()
-
-        if ("${CMAKE_BUILD_TYPE}" STREQUAL "Ubsan")
+        elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "Ubsan")
             set_property(TEST ${PREFIX_NAME}.test PROPERTY
-                    ENVIRONMENT "UBSAN_OPTIONS=print_stacktrace=1")
+                    ENVIRONMENT "UBSAN_OPTIONS=print_stacktrace=1:report_error_type=1")
+        elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "Coverage")
+            if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+                set_property(TEST ${PREFIX_NAME}.test PROPERTY
+                        ENVIRONMENT "LLVM_PROFILE_FILE=${CMAKE_BINARY_DIR}/coverage.profraw")
+            endif()
         endif()
     endif()
 
