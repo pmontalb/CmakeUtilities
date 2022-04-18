@@ -40,7 +40,10 @@ def run_gcc_coverage(cmake_dir, preset, extra_args):
     cwd = os.getcwd()
     os.chdir("{}/cmake-build-{}/Coverage".format(cmake_dir, preset))
 
-    run_command("gcovr {}/cmake-build-{} -r {} --html-details coverage.html {}".format(cmake_dir, preset, cmake_dir, extra_args))
+    if extra_args != "":
+        run_command("gcovr {}/cmake-build-{} -r {} --html-details coverage.html {}".format(cmake_dir, preset, cmake_dir, extra_args))
+    else:
+        run_command("gcovr {}/cmake-build-{} -r {} --html-details coverage.html".format(cmake_dir, preset, cmake_dir, extra_args))
 
     os.chdir(cwd)
 
