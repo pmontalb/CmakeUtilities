@@ -50,7 +50,8 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
 				-Wno-covered-switch-default
 				-Wno-exit-time-destructors
 				-Wno-global-constructors
-				-Wno-ctad-maybe-unsupported)
+				-Wno-ctad-maybe-unsupported
+				-Wno-weak-template-vtables)
 	elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 		### https://raw.githubusercontent.com/Barro/compiler-warnings/master/gcc/warnings-gcc-top-level-8.txt ###
 		set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS}
