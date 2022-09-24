@@ -3,10 +3,10 @@ Language: Cpp
 # BasedOnStyle:  LLVM
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
-AlignConsecutiveMacros: false
-AlignConsecutiveAssignments: false
+AlignConsecutiveMacros: AcrossEmptyLinesAndComments
+AlignConsecutiveAssignments: None
 #AlignConsecutiveBitFields: false
-AlignConsecutiveDeclarations: false
+AlignConsecutiveDeclarations: None
 AlignEscapedNewlines: Right
 AlignOperands: Align
 AlignTrailingComments: true
@@ -56,7 +56,7 @@ BreakConstructorInitializersBeforeComma: false
 BreakConstructorInitializers: BeforeColon
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: true
-ColumnLimit: 120
+ColumnLimit: 200
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: true
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
@@ -115,7 +115,7 @@ PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
 PointerAlignment: Left
 ReflowComments: true
-SortIncludes: true
+SortIncludes: CaseInsensitive
 #SortJavaStaticImport: Before
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
