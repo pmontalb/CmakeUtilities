@@ -16,6 +16,12 @@ jobs:
         preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, gcc-coverage, gcc-release, gcc-profile, gcc-ofast, gcc-memory-opt, gcc-lto, gcc-ofast-lto, gcc-memory-opt-lto, gcc-ofast-memory-opt-lto, clang-asan, clang-ubsan, clang-tsan, clang-coverage, clang-release, clang-profile, clang-ofast, clang-memory-opt, clang-lto, clang-ofast-lto, clang-memory-opt-lto, clang-ofast-memory-opt-lto]
 
     steps:
+    - name: Install clang-13
+      uses: egor-tensin/setup-gcc@v1
+      with:
+        version: 12
+        platform: any
+        
     - name: Install gcc-12
       run: |
         sudo apt update
