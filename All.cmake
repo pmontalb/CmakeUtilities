@@ -9,19 +9,6 @@ if (LANGUAGES_USE_CUDA)
 	include(cmake/CudaFlags.cmake)
 endif()
 
-if (MISC_USE_MKL)
-	include(cmake/MklFlags.cmake)
-endif()
-
-if (MISC_USE_OPENBLAS)
-	include(cmake/OpenBlasFlags.cmake)
-endif()
-
-if (MISC_USE_LAPACK)
-	include(cmake/BlasFlags.cmake)
-	include(cmake/LapackFlags.cmake)
-endif()
-
 include(cmake/Flags.cmake)
 include(cmake/Warnings.cmake)
 include(cmake/Common.cmake)

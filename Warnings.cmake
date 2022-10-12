@@ -26,7 +26,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unused-function)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unknown-pragmas -Wno-unused-function -Wno-unused-macros)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "IntelLLVM")
 	set(WARNING_FLAGS ${WARNING_FLAGS} -Wno-unknown-pragmas -Wno-unused-function)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	set(WARNING_FLAGS ${WARNING_FLAGS} /wd4820 /wd4324 /wd4623 /wd4626 /wd5027 /wd4514 /wd4710 /wd5045 /wd4668)
@@ -322,8 +322,8 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
 			-Wwrite-strings
 			-Wzero-as-null-pointer-constant)
 
-	elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-		set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -w3 -diag-disable:remark -Wall -Wcheck -Werror -Werror-all -Wformat -Wformat-security
+	elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "IntelLLVM")
+		set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} -Wall -Werror -Wformat -Wformat-security
 			-Wmissing-declarations -Wmissing-prototypes -Wnon-virtual-dtor
 			-Wpointer-arith -Wreorder -Wshadow -Wsign-compare
 			-Wstrict-prototypes -Wtrigraphs -Wuninitialized)

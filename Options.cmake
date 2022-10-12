@@ -16,10 +16,6 @@ option(LANGUAGES_USE_CUDA "Depends on CUDA" OFF)
 option(MISC_USE_POSITION_INDEPENDENT_CODE "Use PIC" ON)
 option(MISC_USE_RUNTIME_TYPE_INFO "Use rtti" OFF)
 
-option(MISC_USE_MKL "Use MKL library" OFF)
-option(MISC_USE_OPENBLAS "Use OpenBLAS library" OFF)
-option(MISC_USE_LAPACK "Use LAPACK library" OFF)
-
 option(MISC_RUN_SYMLINK "Symlink clang-tidy, clang-format, pre-commit and presets" ON)
 
 option(OPTIMIZATIONS_GENERATE_DEBUG_INFO "Use -g in release mode" ON)
