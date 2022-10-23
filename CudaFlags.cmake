@@ -44,7 +44,7 @@ if (CONFIG_FOUND_CUDA_GPU AND LANGUAGES_USE_CUDA)
 	message("CUDA Compiler: ${CMAKE_CUDA_COMPILER_ID}")
 	set(CMAKE_CUDA_ARCHITECTURES ${LANGUAGES_CUDA_ARCHITECTURE})
 
-	set(DEFAULT_CUDA_FLAGS ${ARCH_FLAGS} -restrict -Xcompiler -Wno-unknown-pragmas --default-stream per-thread)
+	set(DEFAULT_CUDA_FLAGS ${ARCH_FLAGS} -restrict -Xcompiler -Wno-unknown-pragmas --default-stream per-thread --Werror all-warnings)
 	if (LANGUAGES_USE_64_BITS)
 		set(DEFAULT_CUDA_FLAGS ${DEFAULT_CUDA_FLAGS} -m64)
 	endif ()
