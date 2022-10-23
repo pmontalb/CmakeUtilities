@@ -54,7 +54,7 @@ if (CONFIG_FOUND_CUDA_GPU AND LANGUAGES_USE_CUDA)
 
 	if (CMAKE_BUILD_TYPE STREQUAL "Release")
 		# optimization flags
-		set(DEFAULT_CUDA_FLAGS ${DEFAULT_CUDA_FLAGS} -Xptxas -O3)
+		set(DEFAULT_CUDA_FLAGS ${DEFAULT_CUDA_FLAGS} -Xptxas -O3 --extra-device-vectorization)
 
 		if (OPTIMIZATIONS_USE_FAST_MATH)
 			# fast math (use intrinsics!)

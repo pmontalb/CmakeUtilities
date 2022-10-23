@@ -108,7 +108,8 @@
       "description": "-Ofast build",
       "inherits": "release",
       "cacheVariables": {
-        "OPTIMIZATIONS_USE_OFAST": "ON"
+        "OPTIMIZATIONS_USE_OFAST": "ON",
+        "OPTIMIZATIONS_USE_FAST_MATH": "ON"
       }
     },
     {
