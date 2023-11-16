@@ -37,5 +37,4 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/c
 execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/.pre-commit-config.yaml ${CMAKE_SOURCE_DIR}/.pre-commit-config.yaml)
 execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/.clang-format ${CMAKE_SOURCE_DIR}/.clang-format)
 execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/.clang-tidy ${CMAKE_SOURCE_DIR}/.clang-tidy)
-execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/cmake/.gitignore.in ${CMAKE_SOURCE_DIR}/.gitignore)
 include_directories(${CMAKE_SOURCE_DIR})
