@@ -81,27 +81,27 @@ if (MISC_RUN_SYMLINK)
     endif()
 
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/IgnoreWarning.h)
-        file(CREATE_LINK ${CMAKE_SOURCE_DIR}/cmake/Utilities/IgnoreWarning.h ${CMAKE_SOURCE_DIR}/IgnoreWarning.h SYMBOLIC)
+        file(COPY_FILE ${CMAKE_SOURCE_DIR}/cmake/Utilities/IgnoreWarning.h ${CMAKE_SOURCE_DIR}/IgnoreWarning.h)
     endif()
 
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/.pre-commit-config.yaml)
-        file(CREATE_LINK ${CMAKE_SOURCE_DIR}/cmake/.pre-commit-config.yaml.in ${CMAKE_SOURCE_DIR}/.pre-commit-config.yaml SYMBOLIC)
+        file(COPY_FILE ${CMAKE_SOURCE_DIR}/cmake/.pre-commit-config.yaml.in ${CMAKE_SOURCE_DIR}/.pre-commit-config.yaml)
     endif()
 
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/.clang-format)
-        file(CREATE_LINK ${CMAKE_SOURCE_DIR}/cmake/.clang-format.in ${CMAKE_SOURCE_DIR}/.clang-format SYMBOLIC)
+        file(COPY_FILE ${CMAKE_SOURCE_DIR}/cmake/.clang-format.in ${CMAKE_SOURCE_DIR}/.clang-format)
     endif()
 
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/.clang-tidy)
-        file(CREATE_LINK ${CMAKE_SOURCE_DIR}/cmake/.clang-tidy.in ${CMAKE_SOURCE_DIR}/.clang-tidy SYMBOLIC)
+        file(COPY_FILE ${CMAKE_SOURCE_DIR}/cmake/.clang-tidy.in ${CMAKE_SOURCE_DIR}/.clang-tidy)
     endif()
 
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/.gitignore)
-        file(CREATE_LINK ${CMAKE_SOURCE_DIR}/cmake/.gitignore.in ${CMAKE_SOURCE_DIR}/.gitignore SYMBOLIC)
+        file(COPY_FILE ${CMAKE_SOURCE_DIR}/cmake/.gitignore.in ${CMAKE_SOURCE_DIR}/.gitignore)
     endif()
 
     if (NOT EXISTS ${CMAKE_SOURCE_DIR}/build.py)
-        file(CREATE_LINK ${CMAKE_SOURCE_DIR}/cmake/build.py.in ${CMAKE_SOURCE_DIR}/build.py SYMBOLIC)
+        file(COPY_FILE ${CMAKE_SOURCE_DIR}/cmake/build.py.in ${CMAKE_SOURCE_DIR}/build.py)
     endif()
 endif()
 
