@@ -1,0 +1,8 @@
+# Build & preset artifacts
+cmake-build-*/
+Example/cmake-build-*/
+build/
+.cache/
+cmake
+Example/cmake
+CMakeUserPresets.json

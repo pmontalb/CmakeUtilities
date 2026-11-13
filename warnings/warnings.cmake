@@ -1,0 +1,51 @@
+include_guard(GLOBAL)
+
+# ==============================================================================
+# Warning Flags Dispatcher (Recent Compilers Only: ~Last 5 Years)
+# ==============================================================================
+set(WARNING_FLAGS "")
+set(PEDANTIC_WARNING_FLAGS "")
+
+if (WARNINGS_USE_WALL_AND_WEXTRA)
+    message(STATUS "Use -Wall and -Wextra")
+    if (DETECTED_COMPILER_FLAVOR STREQUAL "MSVC")
+        list(APPEND WARNING_FLAGS /W4)
+    else()
+        list(APPEND WARNING_FLAGS -Wall -Wextra)
+    endif()
+endif()
+
+if (WARNINGS_TREAT_WARNINGS_AS_ERROR)
+    message(STATUS "Use -Werror")
+    if (DETECTED_COMPILER_FLAVOR STREQUAL "MSVC")
+        list(APPEND WARNING_FLAGS /WX)
+    else()
+        list(APPEND WARNING_FLAGS -Werror)
+    endif()
+endif()
+
+if (DETECTED_COMPILER_FLAVOR STREQUAL "GCC")
+    include(${CMAKE_CURRENT_LIST_DIR}/gcc.cmake)
+elseif (DETECTED_COMPILER_FLAVOR STREQUAL "Clang")
+    include(${CMAKE_CURRENT_LIST_DIR}/clang.cmake)
+elseif (DETECTED_COMPILER_FLAVOR STREQUAL "IntelLLVM")
+    include(${CMAKE_CURRENT_LIST_DIR}/icpx.cmake)
+elseif (DETECTED_COMPILER_FLAVOR STREQUAL "AOCC")
+    include(${CMAKE_CURRENT_LIST_DIR}/aocc.cmake)
+elseif (DETECTED_COMPILER_FLAVOR STREQUAL "Emscripten")
+    include(${CMAKE_CURRENT_LIST_DIR}/emscripten.cmake)
+elseif (DETECTED_COMPILER_FLAVOR STREQUAL "MSVC")
+    list(APPEND WARNING_FLAGS /wd4820 /wd4324 /wd4623 /wd4626 /wd5027 /wd4514 /wd4710 /wd5045 /wd4668)
+    if (WARNINGS_USE_PEDANTIC_WARNINGS)
+        set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} /Wall)
+    endif()
+endif()
+
+# Ensure PEDANTIC_WARNING_FLAGS always falls back to WARNING_FLAGS when pedantic is OFF
+if (NOT WARNINGS_USE_PEDANTIC_WARNINGS)
+    set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS})
+endif()
+
+set(WARNING_FLAGS "${WARNING_FLAGS}" CACHE STRING "Baseline compiler warning flags" FORCE)
+set(PEDANTIC_WARNING_FLAGS "${PEDANTIC_WARNING_FLAGS}" CACHE STRING "Comprehensive compiler warning flags" FORCE)
+mark_as_advanced(WARNING_FLAGS PEDANTIC_WARNING_FLAGS)

@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 #include <map>
+#include <pthread.h>
+#include <string>
 
 namespace lib4
 {

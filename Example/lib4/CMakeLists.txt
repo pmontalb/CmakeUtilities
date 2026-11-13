@@ -5,7 +5,7 @@ create_library(
 		PUBLIC_INCLUDE_DIRECTORIES .
 )
 
-if (CMAKE_BUILD_TYPE MATCHES "Tsan")
+if (NOT EMSCRIPTEN AND CMAKE_BUILD_TYPE STREQUAL "Tsan")
 	create_test(
 			NAME testLib4
 			SOURCES TsanTests.cpp

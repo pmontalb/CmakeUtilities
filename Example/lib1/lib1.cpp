@@ -1,5 +1,6 @@
 
 #include "lib1.h"
+#include "IgnoreWarning.h"
 
 #include <algorithm>
 #include <iostream>
@@ -23,6 +24,10 @@ namespace lib1
 		}
 	}
 
+#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_LLVM_COMPILER)
+	IGNORE_WARNING_PUSH()
+	IGNORE_WARNING("-Warray-bounds")
+#endif
 	void ThisViolatesStlDebugChecks::AccessOutOfBounds()
 	{
 		std::vector<double> x(10);
@@ -31,6 +36,9 @@ namespace lib1
 		std::cout << x[x.size() + 1] << std::endl;
 		std::cout << y[y.size() + 1] << std::endl;
 	}
+#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_LLVM_COMPILER)
+	IGNORE_WARNING_POP()
+#endif
 
 	void ThisViolatesStlDebugChecks::SortWithNonReflexiveFunction()
 	{

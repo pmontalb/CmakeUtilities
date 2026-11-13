@@ -1,4 +1,4 @@
-include_guard()
+include_guard(GLOBAL)
 
 if (CMAKE_TESTING_ENABLED)
     add_custom_target(build_and_test COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure)
@@ -38,11 +38,11 @@ endfunction()
 
 function(create_target)
     cmake_parse_arguments(
-            PREFIX
-            "DO_NOT_USE_WARNINGS;DO_NOT_USE_PEDANTIC_WARNINGS"
-            "NAME;TARGET_TYPE;"
-            "SOURCES;PUBLIC_INCLUDE_DIRECTORIES;PRIVATE_INCLUDE_DIRECTORIES;PUBLIC_SYSTEM_INCLUDE_DIRECTORIES;PRIVATE_SYSTEM_INCLUDE_DIRECTORIES;PUBLIC_COMPILE_DEFINITIONS;PRIVATE_COMPILE_DEFINITIONS;DEPENDENCIES;SYSTEM_DEPENDENCIES"
-            ${ARGN}
+        PREFIX
+        "DO_NOT_USE_WARNINGS;DO_NOT_USE_PEDANTIC_WARNINGS"
+        "NAME;TARGET_TYPE;"
+        "SOURCES;PUBLIC_INCLUDE_DIRECTORIES;PRIVATE_INCLUDE_DIRECTORIES;PUBLIC_SYSTEM_INCLUDE_DIRECTORIES;PRIVATE_SYSTEM_INCLUDE_DIRECTORIES;PUBLIC_COMPILE_DEFINITIONS;PRIVATE_COMPILE_DEFINITIONS;DEPENDENCIES;SYSTEM_DEPENDENCIES"
+        ${ARGN}
     )
 
     if (PREFIX_TARGET_TYPE STREQUAL "EXE")
@@ -53,40 +53,46 @@ function(create_target)
         add_library(${PREFIX_NAME} STATIC ${PREFIX_SOURCES})
     elseif (PREFIX_TARGET_TYPE STREQUAL "TEST")
         add_executable(${PREFIX_NAME} ${PREFIX_SOURCES})
- 	    add_test(NAME ${PREFIX_NAME}.test COMMAND ${PREFIX_NAME})
-        add_dependencies(build_and_test ${PREFIX_NAME})
+        add_test(NAME ${PREFIX_NAME}.test COMMAND ${PREFIX_NAME})
+        if (TARGET build_and_test)
+            add_dependencies(build_and_test ${PREFIX_NAME})
+        endif()
 
-        if ("${CMAKE_BUILD_TYPE}" STREQUAL "Asan")
-            set_property(TEST ${PREFIX_NAME}.test PROPERTY
-                    ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1")
-
+        if (CMAKE_BUILD_TYPE STREQUAL "Asan")
+            set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
+                ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1")
             if (LANGUAGES_USE_CUDA)
-                # https://github.com/google/sanitizers/issues/629
-                set_property(TEST ${PREFIX_NAME}.test PROPERTY
+                set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
                     ENVIRONMENT "ASAN_OPTIONS=protect_shadow_gap=0")
             endif()
-        elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "Tsan")
-            set_property(TEST ${PREFIX_NAME}.test PROPERTY
-                    ENVIRONMENT "TSAN_OPTIONS=halt_on_error=1")
-        elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "Ubsan")
-            set_property(TEST ${PREFIX_NAME}.test PROPERTY
-                    ENVIRONMENT "UBSAN_OPTIONS=print_stacktrace=1:report_error_type=1")
-        elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "Coverage")
-            if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-                set_property(TEST ${PREFIX_NAME}.test PROPERTY
-                        ENVIRONMENT "LLVM_PROFILE_FILE=${CMAKE_BINARY_DIR}/coverage.profraw")
+        elseif (CMAKE_BUILD_TYPE STREQUAL "AsanUbsan")
+            set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
+                ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1"
+                "UBSAN_OPTIONS=print_stacktrace=1:report_error_type=1")
+        elseif (CMAKE_BUILD_TYPE STREQUAL "Tsan")
+            set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
+                ENVIRONMENT "TSAN_OPTIONS=halt_on_error=1")
+        elseif (CMAKE_BUILD_TYPE STREQUAL "Ubsan")
+            set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
+                ENVIRONMENT "UBSAN_OPTIONS=print_stacktrace=1:report_error_type=1")
+        elseif (CMAKE_BUILD_TYPE STREQUAL "Coverage")
+            if (DETECTED_COMPILER_FLAVOR MATCHES "^(Clang|AOCC)$")
+                set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
+                    ENVIRONMENT "LLVM_PROFILE_FILE=${CMAKE_BINARY_DIR}/coverage-%p.profraw")
             endif()
         endif()
     endif()
 
-    if (NOT ${PREFIX_DO_NOT_USE_PEDANTIC_WARNINGS})
-        target_compile_options(${PREFIX_NAME} PRIVATE ${PEDANTIC_WARNING_FLAGS})
-    elseif (NOT PREFIX_DO_NOT_USE_WARNINGS)
-        target_compile_options(${PREFIX_NAME} PRIVATE ${WARNING_FLAGS})
+    if (NOT PREFIX_DO_NOT_USE_WARNINGS)
+        if (NOT PREFIX_DO_NOT_USE_PEDANTIC_WARNINGS AND WARNINGS_USE_PEDANTIC_WARNINGS)
+            target_compile_options(${PREFIX_NAME} PRIVATE ${PEDANTIC_WARNING_FLAGS})
+        else()
+            target_compile_options(${PREFIX_NAME} PRIVATE ${WARNING_FLAGS})
+        endif()
     endif()
 
     target_include_directories(${PREFIX_NAME} PUBLIC ${PREFIX_PUBLIC_INCLUDE_DIRECTORIES})
-    target_include_directories(${PREFIX_NAME} PRIVATE ${PREFIX_PRIVATE_INCLUDE_DIRECTORIES})
+    target_include_directories(${PREFIX_NAME} PRIVATE ${PREFIX_PRIVATE_INCLUDE_DIRECTORIES} "${CMAKE_SOURCE_DIR}" "${CMAKE_UTILS_ROOT}/Utilities")
     target_include_directories(${PREFIX_NAME} SYSTEM PUBLIC ${PREFIX_PUBLIC_SYSTEM_INCLUDE_DIRECTORIES})
     target_include_directories(${PREFIX_NAME} SYSTEM PRIVATE ${PREFIX_PRIVATE_SYSTEM_INCLUDE_DIRECTORIES})
 
@@ -99,31 +105,33 @@ endfunction()
 
 function(create_cuda_target)
     cmake_parse_arguments(
-            PREFIX
-            "DO_NOT_USE_WARNINGS;DO_NOT_USE_PEDANTIC_WARNINGS"
-            "NAME;TARGET_TYPE"
-            "SOURCES;PUBLIC_INCLUDE_DIRECTORIES;PRIVATE_INCLUDE_DIRECTORIES;DEPENDENCIES;SYSTEM_DEPENDENCIES"
-            ${ARGN}
+        PREFIX
+        "DO_NOT_USE_WARNINGS;DO_NOT_USE_PEDANTIC_WARNINGS"
+        "NAME;TARGET_TYPE"
+        "SOURCES;PUBLIC_INCLUDE_DIRECTORIES;PRIVATE_INCLUDE_DIRECTORIES;DEPENDENCIES;SYSTEM_DEPENDENCIES"
+        ${ARGN}
     )
 
     if (PREFIX_TARGET_TYPE STREQUAL "EXE")
         add_executable(${PREFIX_NAME} ${PREFIX_SOURCES})
     elseif (PREFIX_TARGET_TYPE STREQUAL "LIB")
-        add_library(${PREFIX_NAME} SHARED ${PREFIX_SOURCES})  # shared by default!
+        add_library(${PREFIX_NAME} SHARED ${PREFIX_SOURCES})
     elseif (PREFIX_TARGET_TYPE STREQUAL "STATIC_LIB")
         add_library(${PREFIX_NAME} STATIC ${PREFIX_SOURCES})
     elseif (PREFIX_TARGET_TYPE STREQUAL "TEST")
         add_executable(${PREFIX_NAME} ${PREFIX_SOURCES})
-        add_test(NAME ${PREFIX_NAME})
+        add_test(NAME ${PREFIX_NAME}.test COMMAND ${PREFIX_NAME})
+        if (TARGET build_and_test)
+            add_dependencies(build_and_test ${PREFIX_NAME})
+        endif()
     endif()
 
     target_include_directories(${PREFIX_NAME} PUBLIC ${PREFIX_PUBLIC_INCLUDE_DIRECTORIES})
-    target_include_directories(${PREFIX_NAME} PRIVATE ${PREFIX_PRIVATE_INCLUDE_DIRECTORIES})
+    target_include_directories(${PREFIX_NAME} PRIVATE ${PREFIX_PRIVATE_INCLUDE_DIRECTORIES} "${CMAKE_SOURCE_DIR}")
     target_link_libraries(${PREFIX_NAME} PUBLIC ${PREFIX_DEPENDENCIES})
     target_link_libraries(${PREFIX_NAME} PRIVATE ${PREFIX_SYSTEM_DEPENDENCIES})
-    target_link_libraries(${PREFIX_NAME} PRIVATE ${CUDA_LIBRARIES})
-    target_link_libraries(${PREFIX_NAME} PRIVATE ${CUDA_CUBLAS_LIBRARIES})
-    target_link_libraries(${PREFIX_NAME} PRIVATE ${CUDA_cusolver_LIBRARY})
-    target_link_libraries(${PREFIX_NAME} PRIVATE ${CUDA_cusparse_LIBRARY})
-    target_compile_options(${PREFIX_NAME} PRIVATE $<$<COMPILE_LANGUAGE:CUDA>: ${DEFAULT_CUDA_FLAGS}>)
+    if (TARGET CUDA::cudart)
+        target_link_libraries(${PREFIX_NAME} PRIVATE CUDA::cudart CUDA::cublas CUDA::cusolver CUDA::cusparse)
+    endif()
+    target_compile_options(${PREFIX_NAME} PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:${DEFAULT_CUDA_FLAGS}>)
 endfunction()

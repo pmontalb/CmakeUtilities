@@ -7,51 +7,56 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-21.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        preset: [gcc-debug, gcc-asan, gcc-ubsan, gcc-tsan, gcc-coverage, gcc-release, gcc-profile, gcc-ofast, gcc-memory-opt, gcc-lto, gcc-ofast-lto, gcc-memory-opt-lto, gcc-ofast-memory-opt-lto, clang-asan, clang-ubsan, clang-tsan, clang-coverage, clang-release, clang-profile, clang-ofast, clang-memory-opt, clang-lto, clang-ofast-lto, clang-memory-opt-lto, clang-ofast-memory-opt-lto]
+        preset:
+          - gcc-debug
+          - gcc-release
+          - gcc-profile
+          - gcc-asan
+          - gcc-ubsan
+          - gcc-tsan
+          - gcc-asan-ubsan
+          - gcc-coverage
+          - gcc-lto
+          - gcc-fast-math
+          - gcc-lto-fast-math
+          - clang-debug
+          - clang-release
+          - clang-profile
+          - clang-asan
+          - clang-ubsan
+          - clang-tsan
+          - clang-msan
+          - clang-asan-ubsan
+          - clang-coverage
+          - clang-lto
+          - clang-fast-math
+          - clang-lto-fast-math
 
     steps:
-    - name: Install gcc-12
-      uses: egor-tensin/setup-gcc@v1
-      with:
-        version: 12
-        platform: any
-        
-    - name: Install clang-13
-      uses: egor-tensin/setup-clang@v1
-      with:
-        version: 13
-        platform: any
-        
-    - name: Checkout
-      uses: actions/checkout@v2
-    
-    - name: Install cmake
-      uses: jwlawson/actions-setup-cmake@v1.12
-      with:
-        cmake-version: '3.22.x'
-        
-    - name: Install ninja
-      uses: seanmiddleditch/gha-setup-ninja@v3
-    
-    - name: Install gtest
-      run: sudo apt-get install libgtest-dev
-      
-    - name: Cmake
-      run: |
-        cd ${{runner.workspace}}/CmakeUtilities
-        cmake . --preset=${{matrix.preset}} -DBUILD_EXAMPLES=ON
-      
-    - name: Build
-      run: |
-        cd ${{runner.workspace}}/CmakeUtilities/cmake-build-${{matrix.preset}}
-        ninja
-      
-    - name: Test
-      run: |
-        cd ${{runner.workspace}}/CmakeUtilities/cmake-build-${{matrix.preset}}
-        ninja build_and_test
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install compilers & tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-14 g++-14 clang-18 lld-18 ninja-build ccache libgtest-dev
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 --slave /usr/bin/g++ g++ /usr/bin/g++-14
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-18 100 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-18
+
+      - name: Install CMake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: '3.30.x'
+
+      - name: Configure
+        run: cmake -S . --preset=${{ matrix.preset }} -DBUILD_EXAMPLES=ON
+
+      - name: Build
+        run: cmake --build --preset=${{ matrix.preset }}
+
+      - name: Test
+        run: ctest --preset=${{ matrix.preset }} --output-on-failure

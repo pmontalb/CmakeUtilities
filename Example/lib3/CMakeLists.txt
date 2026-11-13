@@ -5,7 +5,7 @@ create_library(
 		PUBLIC_INCLUDE_DIRECTORIES .
 )
 
-if (CMAKE_BUILD_TYPE MATCHES "Ubsan")
+if (NOT EMSCRIPTEN AND CMAKE_BUILD_TYPE MATCHES "^(Ubsan|AsanUbsan)$")
 	create_test(
 			NAME testLib3
 			SOURCES UbsanTests.cpp

@@ -5,7 +5,7 @@ create_library(
 		PUBLIC_INCLUDE_DIRECTORIES .
 )
 
-if (CMAKE_BUILD_TYPE MATCHES "Release")
+if (NOT EMSCRIPTEN AND CMAKE_BUILD_TYPE MATCHES "^(Release|RelWithDebInfo|MinSizeRel|Profile)$")
 	create_test(
 			NAME testLib5
 			SOURCES PerformanceTests.cpp

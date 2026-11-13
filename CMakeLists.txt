@@ -1,8 +1,8 @@
+cmake_minimum_required(VERSION 3.28)
+project(cmake_examples LANGUAGES C CXX)
 
-if (BUILD_EXAMPLES)
-	cmake_minimum_required(VERSION 3.14)
-	project(cmake_examples)
+enable_testing()
 
-	file(CREATE_LINK . cmake SYMBOLIC)
-	add_subdirectory(Example)
+if (PROJECT_IS_TOP_LEVEL OR BUILD_EXAMPLES)
+    add_subdirectory(Example)
 endif()
