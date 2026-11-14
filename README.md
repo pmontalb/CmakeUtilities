@@ -24,7 +24,7 @@ Modular CMake (3.28+) build, warning, optimization, and preset framework for **C
 - `warnings/`: Version-gated exhaustive C++ warning flags per compiler (`gcc.cmake`, `clang.cmake`, `icpx.cmake`, `aocc.cmake`, `emscripten.cmake`)
 - `tools/`: `launchers.cmake` (`ccache`, `sccache`, `distcc`, `icecc`), `clang_tidy.cmake`, `iwyu.cmake`, `graphviz.cmake` (`dependency_graph` target), `cuda.cmake`
 - `preset/`: Modular CMake Presets v8 fragments included by `CMakePresets.json`:
-  - `base.json`, `gcc.json`, `clang.json`, `icc.json`, `aocc.json`, `emscripten.json`, `cuda.json`
+  - `base.json`, `gcc.json`, `clang.json`, `icc.json`, `aocc.json`, `msvc.json`, `emscripten.json`, `cuda.json`
   - `fast-math.json`, `lto.json`, `pgo.json`, `sanitizers.json`, `tools.json`
 
 ## Quick Usage
@@ -51,14 +51,14 @@ cmake --workflow --preset=clang-tidy
 All configure/build presets share `base` defaults: Ninja generator, `cmake-build-<preset>` binary dir, `compile_commands.json` export, `ccache` enabled (disabled for tidy/iwyu/time-trace), 64-bit target (`OFF` for Emscripten), and `-Wall -Wextra -Werror` with pedantic warnings enabled.
 
 ### 1. Core Build Configurations
-Available across toolchains (`gcc-*`, `clang-*`, `icpx-*`, `aocc-*`, and `emscripten-*` excluding `profile`):
+Available across toolchains (`gcc-*`, `clang-*`, `icpx-*`, `aocc-*`, `msvc-*` on Windows, and `emscripten-*` excluding `profile`):
 
 | Preset(s) | Configuration | Purpose / What It Accomplishes |
 |---|---|---|
-| `gcc-debug`, `clang-debug`, `icpx-debug`, `aocc-debug`, `emscripten-debug` | `Debug` | Unoptimized (`-O0`) build with full debug symbols (`-ggdb3` / `-g3`) and `libstdc++` iterator/container debug checks (`_GLIBCXX_DEBUG`, skipped on Emscripten/libc++). Best for day-to-day debugging. |
-| `gcc-release`, `clang-release`, `icpx-release`, `aocc-release`, `emscripten-release` | `Release` | Production `-O3` build with `-march=native` (`-xHost` on `icpx`, SIMD on Emscripten), debug symbols (`-g`), `--gc-sections`, and `-fno-semantic-interposition`. |
-| `gcc-minsizerel`, `clang-minsizerel`, `icpx-minsizerel`, `aocc-minsizerel`, `emscripten-minsizerel` | `MinSizeRel` | Size-optimized (`-Os`) build with section GC and hidden symbol visibility (`-fvisibility=hidden`). Used for minimal binary / WASM footprint. |
-| `gcc-profile`, `clang-profile`, `icpx-profile`, `aocc-profile` | `Profile` | Optimized `-O3` + `-march=native` + `-g` build with preserved frame pointers (`-fno-omit-frame-pointer`) for accurate CPU profiling (`perf`, VTune, flamegraphs). |
+| `gcc-debug`, `clang-debug`, `icpx-debug`, `aocc-debug`, `msvc-debug`, `emscripten-debug` | `Debug` | Unoptimized (`-O0` / `/Od`) build with full debug symbols (`-ggdb3` / `-g3` / `/Z7`) and `libstdc++` iterator/container debug checks (`_GLIBCXX_DEBUG`, skipped on Emscripten/libc++/MSVC). Best for day-to-day debugging. |
+| `gcc-release`, `clang-release`, `icpx-release`, `aocc-release`, `msvc-release`, `emscripten-release` | `Release` | Production `-O3` (`/O2 /Ob2` on MSVC) build with `-march=native` (`-xHost` on `icpx`, SIMD on Emscripten), debug symbols (`-g` / `/Z7`), `--gc-sections` (`/Gy /OPT:REF /OPT:ICF`), and `-fno-semantic-interposition`. |
+| `gcc-minsizerel`, `clang-minsizerel`, `icpx-minsizerel`, `aocc-minsizerel`, `msvc-minsizerel`, `emscripten-minsizerel` | `MinSizeRel` | Size-optimized (`-Os` / `/O1 /Ob1`) build with section GC and hidden symbol visibility (`-fvisibility=hidden`). Used for minimal binary / WASM footprint. |
+| `gcc-profile`, `clang-profile`, `icpx-profile`, `aocc-profile`, `msvc-profile` | `Profile` | Optimized `-O3` (`/O2 /Ob2`) + debug info build with preserved frame pointers (`-fno-omit-frame-pointer` / `/Oy-`) for accurate CPU profiling (`perf`, VTune, flamegraphs). |
 
 ### 2. CUDA Presets (`nvcc`)
 Enable `LANGUAGES_USE_CUDA=ON` targeting native GPU architecture (`native`). All have matching configure, build, and test presets:

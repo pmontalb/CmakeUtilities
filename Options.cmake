@@ -15,8 +15,8 @@ set_property(CACHE FLAGS_CPP_STANDARD PROPERTY STRINGS "20" "23" "26")
 # ==============================================================================
 # Compiler Flavor Override (useful when Clang-based compilers need disambiguation)
 # ==============================================================================
-set(COMPILER_FLAVOR "AUTO" CACHE STRING "Compiler flavor: AUTO, GCC, Clang, IntelLLVM, AOCC, Emscripten")
-set_property(CACHE COMPILER_FLAVOR PROPERTY STRINGS "AUTO" "GCC" "Clang" "IntelLLVM" "AOCC" "Emscripten")
+set(COMPILER_FLAVOR "AUTO" CACHE STRING "Compiler flavor: AUTO, GCC, Clang, IntelLLVM, AOCC, MSVC, Emscripten")
+set_property(CACHE COMPILER_FLAVOR PROPERTY STRINGS "AUTO" "GCC" "Clang" "IntelLLVM" "AOCC" "MSVC" "Emscripten")
 
 # ==============================================================================
 # Warning Options

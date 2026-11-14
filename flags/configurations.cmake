@@ -14,7 +14,7 @@ elseif (DETECTED_COMPILER_FLAVOR STREQUAL "AOCC")
 elseif (DETECTED_COMPILER_FLAVOR STREQUAL "Emscripten")
     set(_allowed_configs "Debug" "Release" "RelWithDebInfo" "MinSizeRel" "Asan" "Ubsan")
 elseif (DETECTED_COMPILER_FLAVOR STREQUAL "MSVC")
-    set(_allowed_configs "Debug" "Release" "RelWithDebInfo" "MinSizeRel" "Asan")
+    set(_allowed_configs "Debug" "Release" "RelWithDebInfo" "MinSizeRel" "Profile" "Asan")
 endif()
 
 if (NOT CMAKE_BUILD_TYPE)

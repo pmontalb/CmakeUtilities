@@ -35,7 +35,14 @@ elseif (DETECTED_COMPILER_FLAVOR STREQUAL "AOCC")
 elseif (DETECTED_COMPILER_FLAVOR STREQUAL "Emscripten")
     include(${CMAKE_CURRENT_LIST_DIR}/emscripten.cmake)
 elseif (DETECTED_COMPILER_FLAVOR STREQUAL "MSVC")
-    list(APPEND WARNING_FLAGS /wd4820 /wd4324 /wd4623 /wd4626 /wd5027 /wd4514 /wd4710 /wd5045 /wd4668)
+    list(APPEND WARNING_FLAGS
+        /utf-8
+        /Zc:__cplusplus
+        /external:anglebrackets
+        /external:W0
+        /wd4820 /wd4324 /wd4623 /wd4625 /wd4626 /wd5026 /wd5027
+        /wd4514 /wd4710 /wd4711 /wd5045 /wd4668 /wd4571 /wd4868 /wd5246
+    )
     if (WARNINGS_USE_PEDANTIC_WARNINGS)
         set(PEDANTIC_WARNING_FLAGS ${WARNING_FLAGS} /Wall)
     endif()
