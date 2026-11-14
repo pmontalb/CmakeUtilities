@@ -19,7 +19,7 @@ TEST(CudaSmokeTest, VectorAddOnDevice)
 		b[i] = static_cast<float>(2U * i + 1U);
 	}
 
-	std::vector<float> out;
+	std::vector<float> out(kCount, 0.0f);
 	ASSERT_TRUE(libcuda::AddVectors(a, b, out));
 	ASSERT_EQ(out.size(), kCount);
 	for (size_t i = 0; i < kCount; ++i)

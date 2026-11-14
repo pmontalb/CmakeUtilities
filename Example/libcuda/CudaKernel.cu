@@ -34,13 +34,12 @@ namespace libcuda
 		return err == cudaSuccess && count > 0;
 	}
 
-	bool AddVectors(const std::span<const float> a, const std::span<const float> b, std::vector<float>& out)
+	bool AddVectors(const std::span<const float> a, const std::span<const float> b, const std::span<float> out)
 	{
-		if (a.size() != b.size())
+		if (a.size() != b.size() || a.size() != out.size())
 			return false;
 
 		const size_t count = a.size();
-		out.assign(count, 0.0f);
 		if (count == 0)
 			return true;
 
@@ -64,7 +63,7 @@ namespace libcuda
 
 		constexpr unsigned int kThreadsPerBlock = 256;
 		const unsigned int blocks = static_cast<unsigned int>((count + kThreadsPerBlock - 1) / kThreadsPerBlock);
-		AddKernel<<<blocks, kThreadsPerBlock>>>(devA, devB, devOut, count);
+		AddKernel<<<blocks, kThreadsPerBlock, 0, cudaStreamPerThread>>>(devA, devB, devOut, count);
 
 		if (cudaGetLastError() != cudaSuccess || cudaDeviceSynchronize() != cudaSuccess)
 			return FreeBuffers(devA, devB, devOut);
