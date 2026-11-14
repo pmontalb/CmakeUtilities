@@ -23,7 +23,7 @@ Modular CMake (3.28+) build, warning, optimization, and preset framework for **C
 - `warnings/`: Version-gated exhaustive C++ warning flags per compiler (`gcc.cmake`, `clang.cmake`, `icpx.cmake`, `aocc.cmake`, `emscripten.cmake`)
 - `tools/`: `launchers.cmake` (`ccache`, `sccache`, `distcc`, `icecc`), `clang_tidy.cmake`, `iwyu.cmake`, `graphviz.cmake` (`dependency_graph` target), `cuda.cmake`
 - `preset/`: Modular CMake Presets v8 fragments included by `CMakePresets.json`:
-  - `base.json`, `gcc.json`, `clang.json`, `icc.json`, `aocc.json`, `emscripten.json`
+  - `base.json`, `gcc.json`, `clang.json`, `icc.json`, `aocc.json`, `emscripten.json`, `cuda.json`
   - `fast-math.json`, `lto.json`, `pgo.json`, `sanitizers.json`, `tools.json`
 
 ## Quick Usage

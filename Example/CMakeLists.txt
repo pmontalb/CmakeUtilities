@@ -27,6 +27,10 @@ add_subdirectory(lib5)
 add_subdirectory(lib6)
 add_subdirectory(libmsan)
 
+if (LANGUAGES_USE_CUDA AND CMAKE_CUDA_COMPILER)
+    add_subdirectory(libcuda)
+endif()
+
 if (EMSCRIPTEN)
     create_executable(
         NAME wasm_smoke

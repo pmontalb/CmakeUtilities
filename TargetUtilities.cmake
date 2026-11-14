@@ -59,11 +59,12 @@ function(create_target)
         endif()
 
         if (CMAKE_BUILD_TYPE STREQUAL "Asan")
-            set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
-                ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1")
             if (LANGUAGES_USE_CUDA)
                 set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
-                    ENVIRONMENT "ASAN_OPTIONS=protect_shadow_gap=0")
+                    ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1:protect_shadow_gap=0")
+            else()
+                set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
+                    ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1")
             endif()
         elseif (CMAKE_BUILD_TYPE STREQUAL "AsanUbsan")
             set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
@@ -124,14 +125,24 @@ function(create_cuda_target)
         if (TARGET build_and_test)
             add_dependencies(build_and_test ${PREFIX_NAME})
         endif()
+        if (CMAKE_BUILD_TYPE STREQUAL "Asan")
+            set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
+                ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1:protect_shadow_gap=0")
+        elseif (CMAKE_BUILD_TYPE STREQUAL "AsanUbsan")
+            set_property(TEST ${PREFIX_NAME}.test APPEND PROPERTY
+                ENVIRONMENT "ASAN_OPTIONS=detect_stack_use_after_return=1:protect_shadow_gap=0"
+                "UBSAN_OPTIONS=print_stacktrace=1:report_error_type=1")
+        endif()
     endif()
 
     target_include_directories(${PREFIX_NAME} PUBLIC ${PREFIX_PUBLIC_INCLUDE_DIRECTORIES})
     target_include_directories(${PREFIX_NAME} PRIVATE ${PREFIX_PRIVATE_INCLUDE_DIRECTORIES} "${CMAKE_SOURCE_DIR}")
     target_link_libraries(${PREFIX_NAME} PUBLIC ${PREFIX_DEPENDENCIES})
     target_link_libraries(${PREFIX_NAME} PRIVATE ${PREFIX_SYSTEM_DEPENDENCIES})
-    if (TARGET CUDA::cudart)
-        target_link_libraries(${PREFIX_NAME} PRIVATE CUDA::cudart CUDA::cublas CUDA::cusolver CUDA::cusparse)
-    endif()
+    foreach(_cuda_lib IN ITEMS CUDA::cudart CUDA::cublas CUDA::cusolver CUDA::cusparse)
+        if (TARGET ${_cuda_lib})
+            target_link_libraries(${PREFIX_NAME} PRIVATE ${_cuda_lib})
+        endif()
+    endforeach()
     target_compile_options(${PREFIX_NAME} PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:${DEFAULT_CUDA_FLAGS}>)
 endfunction()

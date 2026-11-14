@@ -33,6 +33,7 @@ option(LANGUAGES_USE_64_BITS "Target 64-bit architecture (-m64 / wasm64)" ON)
 mark_as_advanced(LANGUAGES_USE_64_BITS)
 option(LANGUAGES_USE_CUDA "Enable CUDA language support" OFF)
 set(LANGUAGES_CUDA_ARCHITECTURE "native" CACHE STRING "CUDA target architecture (e.g. native, 86, 89)")
+option(LANGUAGES_CUDA_ALLOW_UNSUPPORTED_COMPILER "Pass -allow-unsupported-compiler to nvcc when host compiler is newer than toolkit limit" OFF)
 
 option(MISC_USE_POSITION_INDEPENDENT_CODE "Enable Position Independent Code (PIC)" ON)
 option(MISC_USE_RUNTIME_TYPE_INFO "Enable RTTI (-frtti); when OFF, passes -fno-rtti" OFF)
