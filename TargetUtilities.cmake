@@ -93,7 +93,10 @@ function(create_target)
     endif()
 
     target_include_directories(${PREFIX_NAME} PUBLIC ${PREFIX_PUBLIC_INCLUDE_DIRECTORIES})
-    target_include_directories(${PREFIX_NAME} PRIVATE ${PREFIX_PRIVATE_INCLUDE_DIRECTORIES} "${CMAKE_SOURCE_DIR}" "${CMAKE_UTILS_ROOT}/Utilities")
+    target_include_directories(${PREFIX_NAME} PRIVATE ${PREFIX_PRIVATE_INCLUDE_DIRECTORIES} "${CMAKE_SOURCE_DIR}")
+    if (NOT EXISTS "${CMAKE_SOURCE_DIR}/IgnoreWarning.h")
+        target_include_directories(${PREFIX_NAME} PRIVATE "${CMAKE_UTILS_ROOT}/Utilities")
+    endif()
     target_include_directories(${PREFIX_NAME} SYSTEM PUBLIC ${PREFIX_PUBLIC_SYSTEM_INCLUDE_DIRECTORIES})
     target_include_directories(${PREFIX_NAME} SYSTEM PRIVATE ${PREFIX_PRIVATE_SYSTEM_INCLUDE_DIRECTORIES})
 
