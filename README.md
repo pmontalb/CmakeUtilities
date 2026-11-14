@@ -140,7 +140,7 @@ Override any option at configure time with `-D<OPTION>=<VALUE>`.
 | `BUILD_SHARED_LIBS` | `OFF` | Build shared libraries instead of static libraries. |
 | `BUILD_EXAMPLES` | `OFF` | Build the `Example/` sample libraries and test suite. |
 | `FLAGS_CPP_STANDARD` | `"20"` | C++ standard (`20`, `23`, or `26`), with extensions disabled (`CXX_EXTENSIONS OFF`). |
-| `COMPILER_FLAVOR` | `"AUTO"` | Override compiler detection: `AUTO`, `GCC`, `Clang`, `IntelLLVM`, `AOCC`, `Emscripten`. |
+| `COMPILER_FLAVOR` | `"AUTO"` | Override compiler detection: `AUTO`, `GCC`, `Clang`, `IntelLLVM`, `AOCC`, `Emscripten`, `MSVC`. |
 | `LANGUAGES_USE_64_BITS` | `ON` | Target 64-bit architecture (`-m64` / `wasm64`). |
 | `MISC_USE_POSITION_INDEPENDENT_CODE` | `ON` | Enable PIC (`CMAKE_POSITION_INDEPENDENT_CODE=ON`). |
 | `MISC_USE_RUNTIME_TYPE_INFO` | `OFF` | Enable RTTI (`-frtti`); when `OFF`, passes `-fno-rtti`. |
