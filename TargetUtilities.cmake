@@ -1,6 +1,6 @@
 include_guard(GLOBAL)
 
-if (CMAKE_TESTING_ENABLED)
+if (CMAKE_TESTING_ENABLED AND NOT TARGET build_and_test)
     add_custom_target(build_and_test COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure)
 endif()
 

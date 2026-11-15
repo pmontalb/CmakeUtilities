@@ -1,6 +1,10 @@
 include_guard(GLOBAL)
 
 cmake_minimum_required(VERSION 3.28)
+if (DEFINED CMAKE_UTILS_ROOT)
+    return()
+endif()
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 # Determine the base directory of CmakeUtilities cleanly (works both standalone and as submodule)
