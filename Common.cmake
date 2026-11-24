@@ -15,11 +15,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
 if (MISC_RUN_SYMLINK AND NOT CMAKE_SOURCE_DIR STREQUAL CMAKE_UTILS_ROOT)
     if (NOT EXISTS "${CMAKE_SOURCE_DIR}/CMakePresets.json" AND EXISTS "${CMAKE_UTILS_ROOT}/CMakePresets.json")
-        file(COPY_FILE "${CMAKE_UTILS_ROOT}/CMakePresets.json" "${CMAKE_SOURCE_DIR}/CMakePresets.json")
-    endif()
-
-    if (NOT EXISTS "${CMAKE_SOURCE_DIR}/preset" AND EXISTS "${CMAKE_UTILS_ROOT}/preset")
-        file(COPY "${CMAKE_UTILS_ROOT}/preset" DESTINATION "${CMAKE_SOURCE_DIR}")
+        file(RELATIVE_PATH _cmake_utils_rel "${CMAKE_SOURCE_DIR}" "${CMAKE_UTILS_ROOT}")
+        file(READ "${CMAKE_UTILS_ROOT}/CMakePresets.json" _cmake_presets_content)
+        string(REPLACE "\"preset/" "\"${_cmake_utils_rel}/preset/" _cmake_presets_content "${_cmake_presets_content}")
+        file(WRITE "${CMAKE_SOURCE_DIR}/CMakePresets.json" "${_cmake_presets_content}")
     endif()
 
     if (NOT EXISTS "${CMAKE_SOURCE_DIR}/IgnoreWarning.h" AND EXISTS "${CMAKE_UTILS_ROOT}/Utilities/IgnoreWarning.h")
