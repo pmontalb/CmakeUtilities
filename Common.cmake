@@ -1,6 +1,9 @@
 include_guard(GLOBAL)
 
-enable_testing()
+option(BUILD_TESTING "Build the testing tree" ON)
+if (BUILD_TESTING)
+    enable_testing()
+endif()
 enable_language(CXX)
 
 if (BUILD_SHARED_LIBS)

@@ -10,11 +10,13 @@ else()
     include(cmake/All.cmake)
 endif()
 
-if (NOT EMSCRIPTEN)
+if (NOT EMSCRIPTEN AND CMAKE_TESTING_ENABLED)
+    find_package(GTest REQUIRED)
+    find_package(Threads REQUIRED)
     create_library(
         NAME testMain
         SOURCES Main.cpp
-        SYSTEM_DEPENDENCIES gtest pthread
+        SYSTEM_DEPENDENCIES GTest::gtest Threads::Threads
     )
 endif()
 
