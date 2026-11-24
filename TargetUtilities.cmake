@@ -1,9 +1,5 @@
 include_guard(GLOBAL)
 
-if (CMAKE_TESTING_ENABLED AND NOT TARGET build_and_test)
-    add_custom_target(build_and_test COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure)
-endif()
-
 function(create_executable)
     create_target(TARGET_TYPE "EXE" ${ARGN})
 endfunction()
@@ -83,10 +79,6 @@ function(create_target)
 endfunction()
 
 function(_register_test_target _target _all_deps _is_cuda)
-    if (TARGET build_and_test)
-        add_dependencies(build_and_test ${_target})
-    endif()
-
     set(_test_env "")
     if (CMAKE_BUILD_TYPE STREQUAL "Asan")
         if (_is_cuda OR LANGUAGES_USE_CUDA)
