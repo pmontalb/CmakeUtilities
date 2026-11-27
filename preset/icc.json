@@ -14,9 +14,8 @@
       "hidden": true,
       "inherits": "base",
       "description": "Base Intel oneAPI icpx (IntelLLVM) toolchain preset",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/icpx.cmake",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "icx",
-        "CMAKE_CXX_COMPILER": "icpx",
         "COMPILER_FLAVOR": "IntelLLVM"
       }
     },

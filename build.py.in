@@ -1,14 +1,23 @@
 #!/usr/bin/python3
 import os
+import glob
+import shutil
 import subprocess
 import argparse
 
 
-def run_command(command):
+def run_command(command, env=None, capture=True):
+    cmd = command if isinstance(command, list) else [p for p in command.split(" ") if p]
     try:
-        out = subprocess.run(command.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        if capture:
+            out = subprocess.run(cmd, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        else:
+            subprocess.run(cmd, env=env, check=True)
+            return [], []
     except subprocess.CalledProcessError as err:
-        print("Err({})\n***stdout({})\n***stderr({})".format(err, err.stdout.decode("UTF-8"), err.stderr.decode("UTF-8")))
+        stdout_s = err.stdout.decode("UTF-8") if err.stdout else ""
+        stderr_s = err.stderr.decode("UTF-8") if err.stderr else ""
+        print("Err({})\n***stdout({})\n***stderr({})".format(err, stdout_s, stderr_s))
         raise err
 
     def get_non_empty_lines(s):
@@ -18,7 +27,7 @@ def run_command(command):
 
 def get_presets(cmake_dir):
     presets, _ = run_command("cmake {} --list-presets".format(cmake_dir))
-    return [l.strip().replace('"', "") for l in presets if "presets" not in l]
+    return [l.split('"')[1] for l in presets if '"' in l]
 
 
 def run_cmake(cmake_dir, preset):
@@ -26,31 +35,94 @@ def run_cmake(cmake_dir, preset):
 
 
 def build(cmake_dir, preset):
-    run_command("cmake --build {}/cmake-build-{}".format(cmake_dir, preset))
+    run_command("cmake --build {}/cmake-build-{} -j".format(cmake_dir, preset))
 
 
-def test(cmake_dir, preset):
+def test(cmake_dir, preset, prof_dir=None):
+    if prof_dir is not None:
+        if os.path.exists(prof_dir):
+            shutil.rmtree(prof_dir)
+        os.makedirs(prof_dir, exist_ok=True)
+        bins = sorted(glob.glob(os.path.join(cmake_dir, f"cmake-build-{preset}", "bin", "*Tests")))
+        for b in bins:
+            env = os.environ.copy()
+            env["LLVM_PROFILE_FILE"] = os.path.join(prof_dir, f"{os.path.basename(b)}.profraw")
+            run_command([b], env=env, capture=False)
+        return
     n_cpus = os.cpu_count()
     run_command("ctest --test-dir {}/cmake-build-{} -j {} --output-on-failure".format(cmake_dir, preset, n_cpus))
 
 
 def run_gcc_coverage(cmake_dir, preset, extra_args):
-    run_command("mkdir -p {}/cmake-build-{}/Coverage".format(cmake_dir, preset))
+    build_dir = os.path.join(cmake_dir, f"cmake-build-{preset}")
+    cov_dir = os.path.join(build_dir, "Coverage")
+    os.makedirs(cov_dir, exist_ok=True)
 
-    cwd = os.getcwd()
-    os.chdir("{}/cmake-build-{}/Coverage".format(cmake_dir, preset))
-
-    if extra_args != "":
-        run_command("gcovr {}/cmake-build-{} -r {} --html-details coverage.html {}".format(cmake_dir, preset, cmake_dir, extra_args))
-    else:
-        run_command("gcovr {}/cmake-build-{} -r {} --html-details coverage.html".format(cmake_dir, preset, cmake_dir, extra_args))
-
-    os.chdir(cwd)
+    obj_dir = os.path.join(build_dir, "test") if os.path.isdir(os.path.join(build_dir, "test")) else build_dir
+    cmd = [
+        "gcovr",
+        "--root",
+        cmake_dir,
+        obj_dir,
+        "--exclude",
+        "test/",
+        "--exclude",
+        "cmake-build-.*",
+        "--exclude",
+        "cmake/",
+        "--exclude",
+        "Simd/",
+        "--exclude",
+        "Profiler/",
+        "--exclude",
+        "NpyCpp/",
+        "--exclude",
+        "Performance/",
+        "--exclude",
+        "Eigen/",
+        "--exclude-unreachable-branches",
+        "--exclude-throw-branches",
+        "--exclude-lines-by-pattern",
+        r".*=\s*default\s*;",
+        "--gcov-ignore-errors=source_not_found",
+        "--print-summary",
+        "--html-details",
+        os.path.join(cov_dir, "coverage.html"),
+    ]
+    if extra_args:
+        cmd.extend([a for a in extra_args.split(" ") if a])
+    run_command(cmd, capture=False)
 
 
 def run_clang_coverage(cmake_dir, preset, extra_args):
-    # TODO
-    pass
+    build_dir = os.path.join(cmake_dir, f"cmake-build-{preset}")
+    cov_dir = os.path.join(build_dir, "Coverage")
+    prof_dir = os.path.join(build_dir, "profraw")
+    os.makedirs(cov_dir, exist_ok=True)
+
+    bins = sorted(glob.glob(os.path.join(build_dir, "bin", "*Tests")))
+    if not bins:
+        return
+    profraws = sorted(glob.glob(os.path.join(prof_dir, "*.profraw")))
+    if not profraws:
+        profraws = sorted(glob.glob(os.path.join(build_dir, "*.profraw")))
+    profdata = os.path.join(cov_dir, "coverage.profdata")
+
+    llvm_profdata = shutil.which("llvm-profdata-23") or shutil.which("llvm-profdata")
+    llvm_cov = shutil.which("llvm-cov-23") or shutil.which("llvm-cov")
+    run_command([llvm_profdata, "merge", "-sparse", *profraws, "-o", profdata], capture=False)
+
+    obj_args = [bins[0]]
+    for b in bins[1:]:
+        obj_args.extend(["-object", b])
+
+    ignore_re = "--ignore-filename-regex=(test/|cmake-build-|cmake/|Simd/|Profiler/|NpyCpp/|Performance/|Eigen/)"
+    run_command([llvm_cov, "show", "-format=html", f"-output-dir={cov_dir}", f"-instr-profile={profdata}", *obj_args, ignore_re], capture=False)
+    report_cmd = [llvm_cov, "report", f"-instr-profile={profdata}", *obj_args, ignore_re]
+    if extra_args:
+        report_cmd.extend([a for a in extra_args.split(" ") if a])
+    run_command(report_cmd, capture=False)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -85,7 +157,8 @@ def main():
 
         if args.debug > 1:
             print("\t[{}] testing...".format(preset))
-        test(args.dir, preset)
+        prof_dir = os.path.join(args.dir, f"cmake-build-{preset}", "profraw") if preset == "clang-coverage" else None
+        test(args.dir, preset, prof_dir=prof_dir)
         if args.debug > 1:
             print("\t[{}] ... testing done!".format(preset))
 

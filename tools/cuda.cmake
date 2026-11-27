@@ -61,6 +61,8 @@ if (CMAKE_CUDA_COMPILER_ID STREQUAL "NVIDIA")
 
     if (CMAKE_UTILS_ARCH_FLAGS)
         separate_arguments(_nvcc_arch_list NATIVE_COMMAND "${CMAKE_UTILS_ARCH_FLAGS}")
+        # Translate Intel-specific -xHost to -march=native for nvcc's GCC/Clang host compiler
+        list(TRANSFORM _nvcc_arch_list REPLACE "^-xHost$" "-march=native")
         list(APPEND _nvcc_host_flags ${_nvcc_arch_list})
     endif()
 

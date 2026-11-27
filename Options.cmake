@@ -41,6 +41,7 @@ option(LANGUAGES_CUDA_WARN_SPILLS "Warn on CUDA register spills and local memory
 option(LANGUAGES_CUDA_WARN_DEFAULT_STREAM "Warn when CUDA kernel launches omit an explicit stream (--Wdefault-stream-launch)" OFF)
 option(LANGUAGES_CUDA_RELAXED_CONSTEXPR "Enable --expt-relaxed-constexpr for nvcc" OFF)
 option(LANGUAGES_CUDA_EXTENDED_LAMBDA "Enable --expt-extended-lambda for nvcc" OFF)
+option(LANGUAGES_CUDA_SERIALIZE_TESTS "Serialize GPU/CUDA CTest targets via RESOURCE_LOCK gpu" ON)
 
 option(MISC_USE_POSITION_INDEPENDENT_CODE "Enable Position Independent Code (PIC)" ON)
 option(MISC_USE_RUNTIME_TYPE_INFO "Enable RTTI (-frtti); when OFF, passes -fno-rtti" OFF)

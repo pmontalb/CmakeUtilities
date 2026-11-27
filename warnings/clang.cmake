@@ -80,3 +80,11 @@ if (_EFFECTIVE_CLANG_VERSION VERSION_GREATER_EQUAL "19.0")
         )
     endif()
 endif()
+
+# Clang 22+ (2026)
+if (_EFFECTIVE_CLANG_VERSION VERSION_GREATER_EQUAL "22.0")
+    list(APPEND PEDANTIC_WARNING_FLAGS
+        -Wno-lifetime-safety-intra-tu-suggestions
+        -Wno-lifetime-safety-intra-tu-constructor-suggestions
+    )
+endif()

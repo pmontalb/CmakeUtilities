@@ -35,7 +35,7 @@ endfunction()
 function(create_target)
     cmake_parse_arguments(
         PREFIX
-        "DO_NOT_USE_WARNINGS;DO_NOT_USE_PEDANTIC_WARNINGS"
+        "DO_NOT_USE_WARNINGS;DO_NOT_USE_PEDANTIC_WARNINGS;GPU"
         "NAME;TARGET_TYPE;"
         "SOURCES;PUBLIC_INCLUDE_DIRECTORIES;PRIVATE_INCLUDE_DIRECTORIES;PUBLIC_SYSTEM_INCLUDE_DIRECTORIES;PRIVATE_SYSTEM_INCLUDE_DIRECTORIES;PUBLIC_COMPILE_DEFINITIONS;PRIVATE_COMPILE_DEFINITIONS;DEPENDENCIES;SYSTEM_DEPENDENCIES"
         ${ARGN}
@@ -74,7 +74,7 @@ function(create_target)
     target_link_libraries(${PREFIX_NAME} ${PREFIX_SYSTEM_DEPENDENCIES})
 
     if (PREFIX_TARGET_TYPE STREQUAL "TEST")
-        _register_test_target(${PREFIX_NAME} "${PREFIX_DEPENDENCIES};${PREFIX_SYSTEM_DEPENDENCIES}" FALSE)
+        _register_test_target(${PREFIX_NAME} "${PREFIX_DEPENDENCIES};${PREFIX_SYSTEM_DEPENDENCIES}" ${PREFIX_GPU})
     endif()
 endfunction()
 
@@ -104,10 +104,18 @@ function(_register_test_target _target _all_deps _is_cuda)
         endif()
     endif()
 
+    set(_test_props "")
+    if (_test_env)
+        list(APPEND _test_props ENVIRONMENT "${_test_env}")
+    endif()
+    if (_is_cuda AND LANGUAGES_CUDA_SERIALIZE_TESTS)
+        list(APPEND _test_props RESOURCE_LOCK gpu)
+    endif()
+
     if ("${_all_deps}" MATCHES "(^|;)(gtest|GTest::gtest|GTest::gtest_main)(;|$)")
         include(GoogleTest)
-        if (_test_env)
-            gtest_discover_tests(${_target} PROPERTIES ENVIRONMENT "${_test_env}")
+        if (_test_props)
+            gtest_discover_tests(${_target} PROPERTIES ${_test_props})
         else()
             gtest_discover_tests(${_target})
         endif()
@@ -115,6 +123,9 @@ function(_register_test_target _target _all_deps _is_cuda)
         add_test(NAME ${_target}.test COMMAND ${_target})
         if (_test_env)
             set_property(TEST ${_target}.test APPEND PROPERTY ENVIRONMENT ${_test_env})
+        endif()
+        if (_is_cuda AND LANGUAGES_CUDA_SERIALIZE_TESTS)
+            set_property(TEST ${_target}.test APPEND PROPERTY RESOURCE_LOCK gpu)
         endif()
     endif()
 endfunction()
@@ -152,4 +163,46 @@ function(create_cuda_target)
     if (PREFIX_TARGET_TYPE STREQUAL "TEST")
         _register_test_target(${PREFIX_NAME} "${PREFIX_DEPENDENCIES};${PREFIX_SYSTEM_DEPENDENCIES}" TRUE)
     endif()
+endfunction()
+
+function(find_gtest)
+    if (TARGET GTest::gtest OR TARGET GTest::gtest_main)
+        return()
+    endif()
+
+    cmake_parse_arguments(PREFIX "" "" "SOURCE_HINTS" ${ARGN})
+
+    # Prebuilt system libgtest is ABI-incompatible with _GLIBCXX_DEBUG and uninstrumented for MSan;
+    # build GoogleTest from source when those are active so it shares the exact STL ABI / instrumentation.
+    if (CMAKE_UTILS_STL_DEBUG_FLAGS OR CMAKE_BUILD_TYPE STREQUAL "Msan")
+        set(_gtest_src "")
+        foreach(_hint IN LISTS PREFIX_SOURCE_HINTS)
+            if (EXISTS "${_hint}/CMakeLists.txt")
+                set(_gtest_src "${_hint}")
+                break()
+            endif()
+        endforeach()
+        if (NOT _gtest_src)
+            foreach(_default_hint IN ITEMS
+                    "${CMAKE_SOURCE_DIR}/gtest"
+                    "${CMAKE_SOURCE_DIR}/submodules/gtest"
+                    "/usr/src/googletest")
+                if (EXISTS "${_default_hint}/CMakeLists.txt")
+                    set(_gtest_src "${_default_hint}")
+                    break()
+                endif()
+            endforeach()
+        endif()
+
+        if (_gtest_src)
+            message(STATUS "Building GoogleTest from source (${_gtest_src}) to match Debug/Sanitizer STL ABI")
+            set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+            set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+            set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+            add_subdirectory("${_gtest_src}" "${CMAKE_BINARY_DIR}/gtest" EXCLUDE_FROM_ALL)
+            return()
+        endif()
+    endif()
+
+    find_package(GTest REQUIRED)
 endfunction()
