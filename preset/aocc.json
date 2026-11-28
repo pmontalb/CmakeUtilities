@@ -13,10 +13,9 @@
       "name": "aocc",
       "hidden": true,
       "inherits": "base",
-      "description": "Base AMD AOCC toolchain preset (expects AOCC clang/clang++ in PATH or AOCC_DIR)",
+      "description": "Base AMD AOCC toolchain preset (auto-discovers AOCC via toolchains/aocc.cmake)",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/aocc.cmake",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++",
         "COMPILER_FLAVOR": "AOCC",
         "CMAKE_CXX_SCAN_FOR_MODULES": "OFF"
       }

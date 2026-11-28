@@ -52,7 +52,14 @@ set(CMAKE_CXX_FLAGS_${CMAKE_UTILS_CONFIG_UPPER}
     "${CMAKE_UTILS_ARCH_FLAGS} ${_san_base_flags} ${_san_flags} ${_common_cxx_str} ${CMAKE_UTILS_RTTI_FLAGS}"
     CACHE STRING "" FORCE)
 set(CMAKE_EXE_LINKER_FLAGS_${CMAKE_UTILS_CONFIG_UPPER} "${_san_flags}" CACHE STRING "" FORCE)
-set(CMAKE_SHARED_LINKER_FLAGS_${CMAKE_UTILS_CONFIG_UPPER} "${_san_flags}" CACHE STRING "" FORCE)
+# Clang/LLVM does not link ASan runtime into shared libraries (the executable provides it);
+# omitting it from shared linker flags prevents nvcc's GCC host linker from pulling in GCC's
+# incompatible libasan.so alongside Clang's ASan runtime.
+if (DETECTED_COMPILER_FLAVOR MATCHES "^(Clang|AOCC|IntelLLVM)$" AND CMAKE_BUILD_TYPE MATCHES "^(Asan|AsanUbsan)$")
+    set(CMAKE_SHARED_LINKER_FLAGS_${CMAKE_UTILS_CONFIG_UPPER} "" CACHE STRING "" FORCE)
+else()
+    set(CMAKE_SHARED_LINKER_FLAGS_${CMAKE_UTILS_CONFIG_UPPER} "${_san_flags}" CACHE STRING "" FORCE)
+endif()
 
 mark_as_advanced(
     CMAKE_CXX_FLAGS_${CMAKE_UTILS_CONFIG_UPPER}

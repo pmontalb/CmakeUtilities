@@ -34,6 +34,10 @@ endif()
 # AMDLIBM Vector Math Library
 if (OPTIMIZATIONS_USE_VECTOR_MATH_LIB)
     list(APPEND COMPILER_OPT_CXX_FLAGS "-fveclib=AMDLIBM")
+    get_filename_component(_aocc_root_dir "${_aocc_bin_dir}" DIRECTORY)
+    if (EXISTS "${_aocc_root_dir}/lib")
+        list(APPEND COMPILER_OPT_LINK_FLAGS "-L${_aocc_root_dir}/lib")
+    endif()
     list(APPEND COMPILER_OPT_LINK_FLAGS "-lamdlibm")
 endif()
 
