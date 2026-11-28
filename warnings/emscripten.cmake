@@ -12,4 +12,9 @@ if (WARNINGS_USE_PEDANTIC_WARNINGS)
         -Wno-pthreads-mem-growth
         -Wno-dollar-in-identifier-extension
     )
+    if (_EFFECTIVE_CLANG_VERSION VERSION_GREATER_EQUAL "21.0")
+        list(APPEND PEDANTIC_WARNING_FLAGS
+            -Wno-unique-object-duplication
+        )
+    endif()
 endif()

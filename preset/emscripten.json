@@ -13,8 +13,8 @@
       "name": "emscripten",
       "hidden": true,
       "inherits": "base",
-      "description": "Base Emscripten (em++) WebAssembly preset (requires EMSDK environment variable)",
-      "toolchainFile": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+      "description": "Base Emscripten (em++) WebAssembly preset (auto-discovers EMSDK via toolchains/emscripten.cmake)",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/emscripten.cmake",
       "cacheVariables": {
         "COMPILER_FLAVOR": "Emscripten",
         "LANGUAGES_USE_64_BITS": "OFF",

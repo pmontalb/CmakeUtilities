@@ -172,9 +172,10 @@ function(find_gtest)
 
     cmake_parse_arguments(PREFIX "" "" "SOURCE_HINTS" ${ARGN})
 
-    # Prebuilt system libgtest is ABI-incompatible with _GLIBCXX_DEBUG and uninstrumented for MSan;
-    # build GoogleTest from source when those are active so it shares the exact STL ABI / instrumentation.
-    if (CMAKE_UTILS_STL_DEBUG_FLAGS OR CMAKE_BUILD_TYPE STREQUAL "Msan")
+    # Prebuilt system libgtest is ABI-incompatible with _GLIBCXX_DEBUG, uninstrumented for MSan,
+    # and host-native (unusable when cross-compiling for Emscripten); build GoogleTest from source
+    # so it shares the exact target ABI / instrumentation.
+    if (CMAKE_UTILS_STL_DEBUG_FLAGS OR CMAKE_BUILD_TYPE STREQUAL "Msan" OR EMSCRIPTEN)
         set(_gtest_src "")
         foreach(_hint IN LISTS PREFIX_SOURCE_HINTS)
             if (EXISTS "${_hint}/CMakeLists.txt")

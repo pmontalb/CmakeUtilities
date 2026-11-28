@@ -6,6 +6,9 @@ include_guard(GLOBAL)
 set(COMPILER_OPT_CXX_FLAGS "")
 set(COMPILER_OPT_LINK_FLAGS "")
 
+# Apply dynamic heap growth and a practical 2 MB stack across all build types (including Debug)
+add_link_options("-sALLOW_MEMORY_GROWTH=1" "-sSTACK_SIZE=2MB")
+
 # Fast-Math
 if (OPTIMIZATIONS_USE_FAST_MATH)
     list(APPEND COMPILER_OPT_CXX_FLAGS "-ffast-math" "-fno-math-errno")
